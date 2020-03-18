@@ -8,9 +8,14 @@ class Player(sprite.Sprite):
         self.device = device
         #self.sprites = self.load_sprites("assets/images/sprites/bobby.png", 64, 64)
         self.image = load_image("assets/images/sprites/bobby.png")
+        self.x = pos_x         #X inicial
+        self.y = pos_y         #Y inicial   
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
         self.soap = 0
         self.keyMap = {}
         self.current_frame = 0
+        self.state = "idle"
         self.setPlayer(device)
         self.restart(pos_x, pos_y)
 
@@ -20,7 +25,8 @@ class Player(sprite.Sprite):
         self.x = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
         self.image = load_image("assets/images/sprites/bobby.png") 
-        self.rect = None
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
 
 
     def setPlayer(self, device):
@@ -80,5 +86,7 @@ class Player(sprite.Sprite):
 
     def update(self):
         self.rect = self.image.get_rect()
+        print(self.rect)
         self.rect.center = (self.x, self.y)
+        print(self.rect.center)
 
