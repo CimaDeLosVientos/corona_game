@@ -1,3 +1,1 @@
 # corona_game
-
-Probando
