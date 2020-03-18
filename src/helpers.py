@@ -1,5 +1,6 @@
 import sys, os
 from pygame import image, error, font
+from .parameters import *
 
 # Funtions
 # ---------------------------------------------------------------------

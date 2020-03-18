@@ -1,6 +1,7 @@
 from pygame import sprite
 from pygame.locals import *
 from .helpers import *
+from .parameters import *
 
 class Player(sprite.Sprite):
     def __init__(self, device, pos_x, pos_y):
@@ -79,14 +80,14 @@ class Player(sprite.Sprite):
         distance = 0.5
         if direction == "left":
             self.x -= time*distance
-            #if self.x > 115:
+            if self.x <= LEFT_LIMIT:
+                self.x = LEFT_LIMIT
         if direction == "right":
             self.x += time*distance
-            #if self.x < 768-96:
+            if self.x >= RIGHT_LIMIT:
+                self.x = RIGHT_LIMIT
 
     def update(self):
         self.rect = self.image.get_rect()
-        print(self.rect)
         self.rect.center = (self.x, self.y)
-        print(self.rect.center)
 

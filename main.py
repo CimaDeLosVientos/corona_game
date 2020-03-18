@@ -3,13 +3,9 @@ from pygame.locals import *
 from src.helpers import *
 from src.things import Soap
 from src.player import Player
+from src.parameters import *
 
 #------------- Init -------------
-
-# Constants
-WIDTH = 1366
-HEIGHT = 720
-
 # Display
 window = pygame.display.set_mode([WIDTH, HEIGHT])
 image_scene_livingroom = load_image("assets/images/scenes/livingroom.png")
@@ -21,7 +17,7 @@ pygame.display.set_caption("corona_game")
 # Variables
 things = pygame.sprite.Group()
 clock = pygame.time.Clock()
-countdown = 120 * 1000
+countdown = LEVEL_TIME * 1000
 ## Scores
 num_soap = 0
 
@@ -29,7 +25,7 @@ num_soap = 0
 pygame.key.set_repeat(10)
 
 #Characters
-player = Player("keyboard", 700, 600)
+player = Player("keyboard", int(HEIGHT/2), GROUND_LEVEL)
 
 #--------------------------------
 
@@ -71,7 +67,7 @@ def on_update(time):
 
     # Things
     if random.random() < 0.5:
-        things.add(Soap(((random.randrange(WIDTH), -50))))
+        things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
     things.update(player)
 
     # Character

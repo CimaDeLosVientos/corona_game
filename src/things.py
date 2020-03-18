@@ -1,6 +1,7 @@
 from pygame import sprite
 from pygame.locals import *
 from .helpers import *
+from .parameters import *
 
 class Thing(sprite.Sprite):
     def __init__(self, position):
@@ -19,7 +20,7 @@ class Thing(sprite.Sprite):
         self.rect.center = (self.x, self.y)
         if sprite.collide_rect(self, player):
             self.be_caught(player)
-        elif self.y >= 630:
+        elif self.y >= BOTTOM_LIMIT:
             self.kill()
 
     def be_caught(self, player):
