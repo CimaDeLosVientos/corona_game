@@ -8,8 +8,13 @@ from src.player import Player
 
 
 #------------- Init -------------
+
+# Constants
+WIDTH = 1366
+HEIGHT = 720
+
 # Display a window of 1366x720
-window = pygame.display.set_mode([1366,720])
+window = pygame.display.set_mode([WIDTH, HEIGHT])
 image_scene_livingroom = load_image("assets/images/scenes/livingroom.png")
 
 # Window name
@@ -17,14 +22,16 @@ pygame.display.set_caption("corona_game")
 
 # Variables
 things = pygame.sprite.Group()
-things.add(Soap((50,50)))
 clock = pygame.time.Clock()
+countdown = 120 * 1000
+## Scores
+num_soap = 0
 
 #Options
 pygame.key.set_repeat(10)
 
 #Characters
-player = Player("keyboard", 700, 500)
+player = Player("keyboard", 700, 600)
 
 #--------------------------------
 
@@ -33,6 +40,7 @@ def loop():
     quit_flag = False
     while not quit_flag:
         time = clock.tick(30)
+        print(len(things.sprites()))
 
         # events
         for event in pygame.event.get():
@@ -59,26 +67,23 @@ def on_event(time, event):
 
 
 def on_update(time):
-    #global countdown
+    # Scene
+    global countdown
+    countdown -= time
+    #print(int(countdown / 1000))
 
-    #if countdown > 0:
+    # Things
+    if random.random() < 0.5:
+        things.add(Soap(((random.randrange(WIDTH), 50))))
+    things.update(player)
 
-        #player1.update()
-        #player2.update()
-
-        #countdown -= time/1000
-
-        # GENERAR OBJETOS
-
-
-        things.update(player)
-        player.update()
+    # Character
+    player.update()
 
 
-#    #The game ends when the timmer count to 0 or some player's life goes to 0
-#    if countdown <= 0 or len(player1.heart) == 0 or len(player2.heart) == 0:
-#        tim.sleep(5)
-#        sys.exit(0)
+
+
+
 
 def on_draw(window):
     # Clear the window

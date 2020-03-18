@@ -8,6 +8,7 @@ class Player(sprite.Sprite):
         self.device = device
         #self.sprites = self.load_sprites("assets/images/sprites/bobby.png", 64, 64)
         self.image = load_image("assets/images/sprites/bobby.png")
+        self.soap = 0
         self.keyMap = {}
         self.current_frame = 0
         self.setPlayer(device)
@@ -80,6 +81,4 @@ class Player(sprite.Sprite):
     def update(self):
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        #if sprite.collide_rect(self, player):
-        #   # Set trigger thing-player contacted
 

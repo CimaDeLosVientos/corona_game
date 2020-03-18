@@ -18,10 +18,14 @@ class Thing(sprite.Sprite):
         self.move()
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        #if sprite.collide_rect(self, player):
-        #   # Set trigger thing-player contacted
-        #elif self.y >= param.level_ground:
-            # Set trigger remove thing
+        if sprite.collide_rect(self, player):
+            self.be_caught(player)
+        elif self.y >= 600:
+            self.kill()
+
+    def be_caught(self, player):
+        player.soap += 1
+        self.kill()
 
 class Soap(Thing):
     def __init__(self, position):
