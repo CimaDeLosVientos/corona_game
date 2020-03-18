@@ -18,9 +18,6 @@ class Thing(sprite.Sprite):
         self.move()
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-
-        print(self.rect)
-        print(self.rect.center)
         #if sprite.collide_rect(self, player):
         #   # Set trigger thing-player contacted
         #elif self.y >= param.level_ground:

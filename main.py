@@ -2,35 +2,35 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from src.helpers import *
 from src.things import Soap
+from src.player import Player
 
-# Init
+
+
+
+#------------- Init -------------
+# Display a window of 1366x720
+window = pygame.display.set_mode([1366,720])
+image_scene_livingroom = load_image("assets/images/scenes/livingroom.png")
+
+# Window name
+pygame.display.set_caption("corona_game")
+
+# Variables
 things = pygame.sprite.Group()
 things.add(Soap((50,50)))
+clock = pygame.time.Clock()
 
-# Init objets and player
-#player = Survival()
+#Options
+pygame.key.set_repeat(10)
 
+#Characters
+player = Player("keyboard", 700, 500)
+
+#--------------------------------
 
 #Game itself
 def loop():
-    #------------- Init -------------
-    # Display a window of 1366x720
-    window = pygame.display.set_mode([1366,720])
-
-    # Window name
-    pygame.display.set_caption("corona_game")
-
-    # Variables
     quit_flag = False
-    clock = pygame.time.Clock()
-
-    #Options
-    pygame.key.set_repeat(10)
-
-    #Characters
-
-    #--------------------------------
-
     while not quit_flag:
         time = clock.tick(30)
 
@@ -40,28 +40,25 @@ def loop():
                 quit_flag = True
 
             # detect events
-            #on_event(time, event)
+            on_event(time, event)
 
         # update scene (stuff)
         on_update(time)
 
         # redraw the screen
-        on_draw(window, "sd")
+        on_draw(window)
         pygame.display.flip()
 
-#on_event function, 
-#def on_event(time, event):
-#    if pygame.KEYDOWN:
-#        keys = pygame.key.get_pressed()
-#
-#        # Controles Player1
-#        player1.actionKeyboard(keys, time)
-#
-#        # Controles Player2
-#        player2.actionKeyboard(keys, time)
+# on_event function, 
+def on_event(time, event):
+    if pygame.KEYDOWN:
+        keys = pygame.key.get_pressed()
+
+        # players controls
+        player.actionKeyboard(keys, time)
+
 
 def on_update(time):
-    pass
     #global countdown
 
     #if countdown > 0:
@@ -71,12 +68,11 @@ def on_update(time):
 
         #countdown -= time/1000
 
-       # if player1.bang:
-       #     bullets.add(Bullet(player1.bang[0], player1.bang[1]))
-       #     player1.bang = None
+        # GENERAR OBJETOS
 
 
-        #bullets.update("player1")
+        things.update(player)
+        player.update()
 
 
 #    #The game ends when the timmer count to 0 or some player's life goes to 0
@@ -84,29 +80,23 @@ def on_update(time):
 #        tim.sleep(5)
 #        sys.exit(0)
 
-def on_draw(window, tileMap):
+def on_draw(window):
     # Clear the window
     window.fill((0, 0, 0)) ## Comprobar si lo puedo quitar porque es poner en blanco y en teoria lo voy a pintar todo
 
-    # Draw the map
-    
+    # Scene
+    window.blit(image_scene_livingroom, image_scene_livingroom.get_rect())
 
-    # Draw things
+    # Things
     for thing in things:
-        thing.update("ww")
         window.blit(thing.image, thing.rect)
 
-    #Draw the timmer
-    #timeCD, time_rect = draw_text(str(int(countdown)), 768+32, 768/2, 30)
-    #window.blit(timeCD, time_rect)
-    #Draw the characters
-    #window.blit(player1.image, player1.rect)
-    #window.blit(player2.image, player2.rect)
-    #Draw lifes
-    #for heart in player1.heart:
-    #    window.blit(heart[0], heart[1])
-    #for heart in player2.heart:
-    #    window.blit(heart[0], heart[1])
+    # Character
+    window.blit(player.image, player.rect)
+    player.update()
+
+    # Scores
+
 
 #Main function
 if __name__ == '__main__':
