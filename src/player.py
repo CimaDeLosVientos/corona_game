@@ -17,6 +17,8 @@ class Player(sprite.Sprite):
         self.keyMap = {}
         self.current_frame = 0
         self.state = "idle"
+        self.score = {"soap": 0, "video": 0}
+        self.healt = INITIAL_HEALT
         self.setPlayer(device)
         self.restart(pos_x, pos_y)
 

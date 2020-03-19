@@ -24,8 +24,7 @@ class Thing(sprite.Sprite):
             self.kill()
 
     def be_caught(self, player):
-        player.soap += 1
-        self.kill()
+        pass
 
 class Soap(Thing):
     def __init__(self, position):
@@ -33,3 +32,20 @@ class Soap(Thing):
         self.image = load_image("assets/images/sprites/soap.png")
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
+
+
+    def be_caught(self, player):
+        player.score["soap"] += 1
+        player.healt -= 1
+        self.kill()
+
+class Video(Thing):
+    def __init__(self, position):
+        super(Video, self).__init__(position)
+        self.image = load_image("assets/images/sprites/video.png")
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
+
+    def be_caught(self, player):
+        player.score["video"] += 1
+        self.kill()
