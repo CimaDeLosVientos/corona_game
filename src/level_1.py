@@ -9,6 +9,7 @@ from .parameters import *
 class Level1Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
+        self.next = None
         self.background = load_image("assets/images/scenes/livingroom.png")
 
         # Next button
@@ -16,8 +17,11 @@ class Level1Introduction(Scene):
         self.button.fill((255,255,0))
         self.button_rect = self.button.get_rect()
         self.button_rect.center = (700, 200)
-
         self.button_state = 1
+
+
+    def load(self, data):
+        pass
 
 
     def on_event(self, time, event):
@@ -26,19 +30,11 @@ class Level1Introduction(Scene):
             self.button_state = 0
         if (not mouse_press and self.button_rect.collidepoint(pygame.mouse.get_pos()) and self.button_state == 0):
             self.player.score["video"] += 1
-            return
+            self.next = "level1"
 
 
     def on_update(self, time):
-        self.countdown -= time
-
-        # Things
-        if random.random() < 0.5:
-            self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        self.things.update(self.player)
-
-        # Character
-        self.player.update()
+        pass
 
 
     def on_draw(self, screen):
@@ -47,42 +43,35 @@ class Level1Introduction(Scene):
 
         # Scene
         screen.blit(self.background, self.background.get_rect())
-
-        # Things
-        for thing in self.things:
-            screen.blit(thing.image, thing.rect)
-
-        # Character
-        screen.blit(self.player.image, self.player.rect) 
         
-        # Scores
-        screen.blit(self.object_1_icon.image, self.object_1_icon.rect)
-        object_1_score, object_1_score_rect = draw_text(str(self.player.score["soap"]), OBJECT_1_COUNTER_LOCATION[0], OBJECT_1_COUNTER_LOCATION[1])
-        screen.blit(object_1_score, object_1_score_rect)
+        # # Scores
+        # screen.blit(self.object_1_icon.image, self.object_1_icon.rect)
+        # object_1_score, object_1_score_rect = draw_text(str(self.player.score["soap"]), OBJECT_1_COUNTER_LOCATION[0], OBJECT_1_COUNTER_LOCATION[1])
+        # screen.blit(object_1_score, object_1_score_rect)
 
-        screen.blit(self.object_2_icon.image, self.object_2_icon.rect)
-        object_2_score, object_2_score_rect = draw_text(str(self.player.score["video"]), OBJECT_2_COUNTER_LOCATION[0], OBJECT_2_COUNTER_LOCATION[1])
-        screen.blit(object_2_score, object_2_score_rect)
+        # screen.blit(self.object_2_icon.image, self.object_2_icon.rect)
+        # object_2_score, object_2_score_rect = draw_text(str(self.player.score["video"]), OBJECT_2_COUNTER_LOCATION[0], OBJECT_2_COUNTER_LOCATION[1])
+        # screen.blit(object_2_score, object_2_score_rect)
 
-        countdown_timmer, countdown_timmer_rect = draw_text(str(int(self.countdown / 1000)), TIMER_LOCATION[0], TIMER_LOCATION[1])
-        screen.blit(countdown_timmer, countdown_timmer_rect)
+        # countdown_timmer, countdown_timmer_rect = draw_text(str(int(self.countdown / 1000)), TIMER_LOCATION[0], TIMER_LOCATION[1])
+        # screen.blit(countdown_timmer, countdown_timmer_rect)
 
-        width_healt_bar = INITIAL_HEALT * HEALT_BAR_PORTION_SIZE[0]
-        healt_bar = pygame.Surface((width_healt_bar, HEALT_BAR_PORTION_SIZE[1]))
-        healt_bar.fill((255,200,200))
-        screen.blit(healt_bar, (HEALT_LOCATION[0] - int(width_healt_bar / 2), HEALT_LOCATION[1]))
+        # width_healt_bar = INITIAL_HEALT * HEALT_BAR_PORTION_SIZE[0]
+        # healt_bar = pygame.Surface((width_healt_bar, HEALT_BAR_PORTION_SIZE[1]))
+        # healt_bar.fill((255,200,200))
+        # screen.blit(healt_bar, (HEALT_LOCATION[0] - int(width_healt_bar / 2), HEALT_LOCATION[1]))
 
-        width_current_healt_bar = self.player.healt * HEALT_BAR_PORTION_SIZE[0]
-        current_healt_bar = pygame.Surface((width_current_healt_bar, HEALT_BAR_PORTION_SIZE[1]))
-        current_healt_bar.fill((255,0,0))
-        screen.blit(current_healt_bar, (HEALT_LOCATION[0] - int(width_current_healt_bar / 2), HEALT_LOCATION[1]))
+        # width_current_healt_bar = self.player.healt * HEALT_BAR_PORTION_SIZE[0]
+        # current_healt_bar = pygame.Surface((width_current_healt_bar, HEALT_BAR_PORTION_SIZE[1]))
+        # current_healt_bar.fill((255,0,0))
+        # screen.blit(current_healt_bar, (HEALT_LOCATION[0] - int(width_current_healt_bar / 2), HEALT_LOCATION[1]))
 
 
         screen.blit(self.button, self.button_rect)
 
 
     def finish(self, data):
-        return
+        pass
 
 
 class Level1Livingroom(Scene):
