@@ -27,6 +27,6 @@ class Scene:
         "Se llama cuando se quiere dibujar la pantalla."
         raise NotImplemented("Tiene que implementar el método on_draw.")
 
-    def finish(self):
+    def finish(self, data):
         "Se llama cuando se quiere pasar a la siguiente escena."
         raise NotImplemented("Tiene que implementar el método on_draw.")

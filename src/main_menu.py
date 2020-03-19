@@ -56,8 +56,6 @@ class MainMenu(Scene):
 				self.next = "credits"
 			#if self.exit_button_rect.collidepoint(pygame.mouse.get_pos()):
 			#	self.next = ""
-            self.player.score["video"] += 1
-            self.next = "level1"
         else:
         	self.button_state = 1
 

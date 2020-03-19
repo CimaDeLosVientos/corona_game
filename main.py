@@ -75,10 +75,27 @@ class Director:
 
 if __name__ == '__main__':
     pygame.init()
-    data = {}
-    scenes = {
-        "init" : Level1Introduction()#Level1Livingroom()
+    data = {
+        "healt_player" : INITIAL_HEALT
     }
+    scenes = {
+        "init" : MainMenu()
+        "main_menu" : MainMenu()
+        "play_menu" : PlayMenu()
+        "how_to_play" : None
+        "credits" : Credits()
+        "story_init" : Introduction()
+        "level_1_0" : Level1Introduction()
+        "level_1_1" : Level1Play()
+        "level_2_0" : Level2Introduction()
+        "level_2_1" : Level2Play()
+        "level_3_0" : Level3Introduction()
+        "level_3_1" : Level3Play()
+        "level_4_0" : Level4Introduction()
+        "level_4_1" : Level4Play()
+        "level_5_0" : Level5Introduction()
+        "level_5_1" : Level5Play()
+    }
+    
     director = Director(scenes, data)
     director.run()
-
