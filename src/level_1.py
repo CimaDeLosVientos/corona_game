@@ -10,41 +10,23 @@ class Level1Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.background = load_image("assets/images/scenes/livingroom.png")
-        # image_score_soap = Soap((WIDTH - 80, 51))
-        self.object_1_icon = Soap(OBJECT_1_ICON_LOCATION)
-        self.object_2_icon = Video(OBJECT_2_ICON_LOCATION)
 
-        # Variables
-        self.things = pygame.sprite.Group()
-        self.countdown = LEVEL_TIME * 1000
-        self.boton = pygame.Surface((100, 50))
-        self.boton.fill((255,255,0))
-        self.boton_rect = self.boton.get_rect()
-        self.boton_rect.center = (700, 200)
+        # Next button
+        self.button = pygame.Surface((100, 50))
+        self.button.fill((255,255,0))
+        self.button_rect = self.button.get_rect()
+        self.button_rect.center = (700, 200)
 
-        #Characters
-        self.player = Player("keyboard", 500, 500)
-
-        self.boton_state = 1
+        self.button_state = 1
 
 
     def on_event(self, time, event):
-        #print("eeeeeeeeeeeeeeee")
-        #print(pygame.MOUSEBUTTONDOWN)
-        #print(self.boton_rect.collidepoint(pygame.mouse.get_pos()))
-        #print(self.boton_state == 1)
-        #print(pygame.MOUSEBUTTONDOWN and self.boton_rect.collidepoint(pygame.mouse.get_pos()) and self.boton_state == 1)
-        #print("asdasdasdasdasda")
-        #print(pygame.MOUSEBUTTONUP)
-        #print(self.boton_rect.collidepoint(pygame.mouse.get_pos()))
-        #print(self.boton_state == 0)
-        #print(pygame.MOUSEBUTTONUP and self.boton_rect.collidepoint(pygame.mouse.get_pos()) and self.boton_state == 0)
         mouse_press = pygame.mouse.get_pressed()[0]
-        if (mouse_press and self.boton_rect.collidepoint(pygame.mouse.get_pos()) and self.boton_state == 1):
-            self.boton_state = 0
-        if (not mouse_press and self.boton_rect.collidepoint(pygame.mouse.get_pos()) and self.boton_state == 0):
+        if (mouse_press and self.button_rect.collidepoint(pygame.mouse.get_pos()) and self.button_state == 1):
+            self.button_state = 0
+        if (not mouse_press and self.button_rect.collidepoint(pygame.mouse.get_pos()) and self.button_state == 0):
             self.player.score["video"] += 1
-            self.boton_state = 1
+            return
 
 
     def on_update(self, time):
@@ -96,7 +78,11 @@ class Level1Introduction(Scene):
         screen.blit(current_healt_bar, (HEALT_LOCATION[0] - int(width_current_healt_bar / 2), HEALT_LOCATION[1]))
 
 
-        screen.blit(self.boton, self.boton_rect)
+        screen.blit(self.button, self.button_rect)
+
+
+    def finish(self, data):
+        return
 
 
 class Level1Livingroom(Scene):

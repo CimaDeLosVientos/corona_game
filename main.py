@@ -56,8 +56,13 @@ class Director:
             self.current_scene.on_draw(self.screen)
             pygame.display.flip()
 
-    def change_scene(self, scene):
-        self.current_scene = scene
+            if self.current_scene.next:
+                self.change_scene()
+
+    def change_scene(self):
+        self.current_scene.finish(self.data) # Se le manda el diccionario de datos para que lo actualice.
+        self.current_scene = self.scenes[self.current_scene.next]
+        self.current_scene.load(self.data) # Se le manda el diccionario de datos para que se configure.
 
     def quit(self):
         self.quit_flag = True
@@ -70,10 +75,10 @@ class Director:
 
 if __name__ == '__main__':
     pygame.init()
+    data = {}
     scenes = {
         "init" : Level1Introduction()#Level1Livingroom()
     }
-    data = {}
     director = Director(scenes, data)
     director.run()
 
