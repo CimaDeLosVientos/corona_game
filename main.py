@@ -71,7 +71,7 @@ class Director:
 if __name__ == '__main__':
     pygame.init()
     scenes = {
-        "init" : Level1Livingroom()
+        "init" : Level1Introduction()#Level1Livingroom()
     }
     data = {}
     director = Director(scenes, data)
