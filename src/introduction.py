@@ -12,8 +12,8 @@ class Introduction(Scene):
         self.next = None
         self.background = []
         self.current_text = -1
-        for i in range(0):
-            self.background.append(load_image("assets/images/scenes/introduction_text_{}.png".format(i)))
+        for i in range(6):
+            self.background.append(load_image("assets/images/scenes/0-{}.png".format(i)))
 
         self.mouse_state = 1 # Up
 

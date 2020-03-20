@@ -27,6 +27,7 @@ class Director:
         # Display
         self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
 
+
         # screen name
         pygame.display.set_caption("corona_game")
 
@@ -38,7 +39,7 @@ class Director:
         pygame.key.set_repeat(10)
 
         self.scenes = scenes
-        self.current_scene = self.scenes["level_1_1"]
+        self.current_scene = self.scenes["level_1_0"]
         self.data = data
 
     def run(self):

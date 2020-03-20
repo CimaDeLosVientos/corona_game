@@ -10,13 +10,11 @@ class Level1Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
-        self.background = load_image("assets/images/scenes/livingroom.png")
-        self.chat = []
-        self.current_chat = -1
-        for i in range(6):
-            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/1-{}.png".format(i)), CHAT_SURFACE))
-        self.chat_rect = self.chat[0].get_rect()
-        self.chat_rect.center = (int(WIDTH / 2) , int(HEIGHT / 2))
+        self.background = []
+        self.current_text = -1
+        for i in range(0):
+            self.background.append(load_image("assets/images/scenes/level_1_text_{}.png".format(i)))
+
         self.mouse_state = 1 # Up
 
 
@@ -26,13 +24,14 @@ class Level1Introduction(Scene):
 
     def on_event(self, time, event):
         mouse_press = pygame.mouse.get_pressed()[0]
-        if (mouse_press and self.mouse_state == 1):
-            self.mouse_state = 0
-        if (not mouse_press and self.mouse_state == 0):
-            self.current_chat += 1
-            self.mouse_state = 1
-            if (self.current_chat == len(self.chat) - 1):
+        if (mouse_press and self.button_state == 1):
+            self.button_state = 0
+        if (not mouse_press and self.button_state == 0):
+            self.current_text += 1
+            if (self.current_text == len(self.background)):
                 self.next = "level_1_1"
+        else:
+            self.button_state = 1
 
 
     def on_update(self, time):
@@ -44,8 +43,8 @@ class Level1Introduction(Scene):
         screen.fill((0, 0, 0)) ## Comprobar si lo puedo quitar porque es poner en blanco y en teoria lo voy a pintar todo
 
         # Scene
-        if self.current_chat >= 0:
-            screen.blit(self.chat[self.current_chat], self.chat_rect)
+        if self.current_text >= 0:
+            screen.blit(self.background[self.current_text], self.background[self.current_text].get_rect())
 
     def finish(self, data):
         pass
@@ -64,7 +63,7 @@ class Level1Play(Scene):
         self.countdown = LEVEL_TIME * 1000
 
         #Characters
-        self.player = Player("keyboard", int(WIDTH / 2), GROUND_LEVEL)
+        self.player = Player("keyboard", int(HEIGHT/2), GROUND_LEVEL)
 
 
     def load(self, data):

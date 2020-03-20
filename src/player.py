@@ -1,4 +1,4 @@
-from pygame import sprite
+from pygame import sprite, transform
 from pygame.locals import *
 from .helpers import *
 from .parameters import *
@@ -46,9 +46,9 @@ class Player(sprite.Sprite):
 
     def load_sprites(self):
         ficha = {
-            "left"  : load_image("assets/images/sprites/bobby_left.png"),
-            "front" : load_image("assets/images/sprites/bobby_front.png"),
-            "right" : load_image("assets/images/sprites/bobby_right.png")
+            "left"  : transform.scale(load_image("assets/images/sprites/bobby_left.png"), PLAYER_SURFACE),
+            "front" : transform.scale(load_image("assets/images/sprites/bobby_front.png"), PLAYER_SURFACE),
+            "right" : transform.scale(load_image("assets/images/sprites/bobby_right.png"), PLAYER_SURFACE)
         }
         return ficha
 
