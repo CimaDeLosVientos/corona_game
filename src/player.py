@@ -13,11 +13,10 @@ class Player(sprite.Sprite):
         self.y = pos_y         #Y inicial   
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        self.soap = 0
         self.keyMap = {}
         self.current_frame = -1
         #self.state = "idle"
-        self.score = {"soap": 0, "video": 0}
+        self.score = {}
         self.healt = INITIAL_HEALT
         self.setPlayer(device)
         self.restart(pos_x, pos_y)
@@ -25,6 +24,7 @@ class Player(sprite.Sprite):
     def restart(self, pos_x, pos_y):
         #Reiniciar atributos del personaje
         self.state = "idle"
+        self.score = {"soap": 0, "video": 0}
         self.x = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
         self.image = self.sprites["front"]

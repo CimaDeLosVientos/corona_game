@@ -66,6 +66,9 @@ class Level1Play(Scene):
         self.things = pygame.sprite.Group()
         self.countdown = LEVEL_TIME * 1000
         self.start = False
+        self.end_completed = False
+        self.end_failed_time = False
+        self.end_failed_healt = False
         self.mouse_state = 1 # Up
 
         #Characters
@@ -81,7 +84,12 @@ class Level1Play(Scene):
             if (mouse_press and self.mouse_state == 1):
                 self.mouse_state = 0
             if (not mouse_press and self.mouse_state == 0):
-                self.start = True
+                if self.start == False:
+                    self.start = True
+                if self.end_completed == True:
+                    self.next = "level_2_0"
+                if self.end_failed_time == True or self.end_failed_healt == True:
+                    self.next = "main_menu"
                 self.mouse_state = 1
         else:
             keys = pygame.key.get_pressed()
@@ -93,15 +101,25 @@ class Level1Play(Scene):
     def on_update(self, time):
         if not self.start:
             return
+        elif self.countdown <= 0:
+            self.end_failed_time = True
+            return
+        elif self.player.healt <= 0:
+            self.end_failed_healt = True
+            return
+        elif (self.player.score["soap"] >= OBJECT_1_NEEDS_LEVEL_1
+            and self.player.score["video"] >= OBJECT_2_NEEDS_LEVEL_1):
+            self.end_completed = True
+            return
         self.countdown -= time
 
         # Things generation
         lottery = random.random()
-        if lottery < RATIO_OBJECT_1_LV_1:
+        if lottery < RATIO_OBJECT_1_LEVEL_1:
             self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        elif lottery < RATIO_OBJECT_2_LV_1:
+        elif lottery < RATIO_OBJECT_2_LEVEL_1:
             self.things.add(Video(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        elif lottery < RATIO_BAD_OBJECT_LV_1:
+        elif lottery < RATIO_BAD_OBJECT_LEVEL_1:
             self.things.add(random.choice(self.bad_objects)(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
 
         self.things.update(time, self.player)
@@ -143,10 +161,19 @@ class Level1Play(Scene):
         healt_bar.fill((255,200,200))
         screen.blit(healt_bar, (HEALT_LOCATION[0] - int(width_healt_bar / 2), HEALT_LOCATION[1]))
 
-        width_current_healt_bar = self.player.healt * HEALT_BAR_PORTION_SIZE[0]
+        width_current_healt_bar = max(0, self.player.healt * HEALT_BAR_PORTION_SIZE[0])
         current_healt_bar = pygame.Surface((width_current_healt_bar, HEALT_BAR_PORTION_SIZE[1]))
         current_healt_bar.fill((255,0,0))
         screen.blit(current_healt_bar, (HEALT_LOCATION[0] - int(width_current_healt_bar / 2), HEALT_LOCATION[1]))
+
+        # Finished
+        if self.countdown <= 0:
+            screen.blit(self.start_button, self.start_button_rect)
+        elif self.player.healt <= 0:
+            screen.blit(self.start_button, self.start_button_rect)
+        elif (self.player.score["soap"] >= OBJECT_1_NEEDS_LEVEL_1
+            and self.player.score["video"] >= OBJECT_2_NEEDS_LEVEL_1):
+            screen.blit(self.start_button, self.start_button_rect)
 
     def finish(self, data):
         data["healt_player"] = self.player.healt
