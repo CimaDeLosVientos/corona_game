@@ -27,7 +27,7 @@ class Player(sprite.Sprite):
         self.state = "idle"
         self.x = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
-        self.image = load_image("assets/images/sprites/bobby.png") 
+        self.image = self.sprites["front"]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 

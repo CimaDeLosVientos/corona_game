@@ -55,6 +55,9 @@ class Level1Play(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.background = load_image("assets/images/scenes/livingroom.png")
+        self.start_button = load_image("assets/images/sprites/button.png")
+        self.start_button_rect = self.start_button.get_rect()
+        self.start_button_rect.center = (int(WIDTH / 2) , int(HEIGHT / 2))
         self.object_1_icon = Soap(OBJECT_1_ICON_LOCATION)
         self.object_2_icon = Video(OBJECT_2_ICON_LOCATION)
         self.bad_objects = [LowBattery] # Class pointers
@@ -62,6 +65,8 @@ class Level1Play(Scene):
         # Variables
         self.things = pygame.sprite.Group()
         self.countdown = LEVEL_TIME * 1000
+        self.start = False
+        self.mouse_state = 1 # Up
 
         #Characters
         self.player = Player("keyboard", int(WIDTH / 2), GROUND_LEVEL)
@@ -71,13 +76,23 @@ class Level1Play(Scene):
          self.player.healt = data["healt_player"]
 
     def on_event(self, time, event):
-        keys = pygame.key.get_pressed()
+        if not self.start:
+            mouse_press = pygame.mouse.get_pressed()[0]
+            if (mouse_press and self.mouse_state == 1):
+                self.mouse_state = 0
+            if (not mouse_press and self.mouse_state == 0):
+                self.start = True
+                self.mouse_state = 1
+        else:
+            keys = pygame.key.get_pressed()
 
-        # players controls
-        self.player.actionKeyboard(keys, time)
+            # players controls
+            self.player.actionKeyboard(keys, time)
 
 
     def on_update(self, time):
+        if not self.start:
+            return
         self.countdown -= time
 
         # Things generation
@@ -101,6 +116,8 @@ class Level1Play(Scene):
 
         # Scene
         screen.blit(self.background, self.background.get_rect())
+        if not self.start:
+            screen.blit(self.start_button, self.start_button_rect)
 
         # Things
         for thing in self.things:
