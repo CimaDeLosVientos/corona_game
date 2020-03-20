@@ -7,16 +7,16 @@ class Player(sprite.Sprite):
     def __init__(self, device, pos_x, pos_y):
         sprite.Sprite.__init__(self)
         self.device = device
-        #self.sprites = self.load_sprites("assets/images/sprites/bobby.png", 64, 64)
-        self.image = load_image("assets/images/sprites/bobby.png")
+        self.sprites = self.load_sprites()
+        self.image = self.sprites["front"]
         self.x = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
         self.soap = 0
         self.keyMap = {}
-        self.current_frame = 0
-        self.state = "idle"
+        self.current_frame = -1
+        #self.state = "idle"
         self.score = {"soap": 0, "video": 0}
         self.healt = INITIAL_HEALT
         self.setPlayer(device)
@@ -44,39 +44,64 @@ class Player(sprite.Sprite):
         #    self.keyMap["weakAttack"] = 2       #Number of the button (X on Xbox controller)
         #    self.keyMap["strongAttack"] = 3     #Number of the button (Y on Xbox controller)
 
-    def load_sprites(self, filename, width, height):
-        ficha = {}
-
-        sprite_ficha = load_image(filename)
-        ficha["front"] = []
-        ficha["frontAttack"] = []
-        ficha["back"] = []
-        for i in range(0,3):
-            ficha["front"].append(sprite_ficha.subsurface((i*64, 0*64, width, height)))
-            ficha["frontAttack"].append(sprite_ficha.subsurface((i*64, 1*64, width, height)))
-            ficha["back"].append(sprite_ficha.subsurface((i*64, 2*64, width, height)))
-
-        ficha["sufferFront"] = sprite_ficha.subsurface((0, 3*64, width, height))
-        ficha["sufferBack"] = sprite_ficha.subsurface((64, 3*64, width, height))
-
-        for i in range(0,5):
-            h = load_image("assets"+os.sep+"img"+os.sep+"sprites"+os.sep+"heart1.png")
-            h_rect = h.get_rect()
-            h_rect.centerx = 768+32
-            if self.orientation == 1:
-                h_rect.centery = 64*i + 32
-            if self.orientation == -1:
-                h_rect.centery = 768/2 + 64*i + 96
-            self.heart.append([h, h_rect])
-
+    def load_sprites(self):
+        ficha = {
+            "left"  : load_image("assets/images/sprites/bobby_left.png"),
+            "front" : load_image("assets/images/sprites/bobby_front.png"),
+            "right" : load_image("assets/images/sprites/bobby_right.png")
+        }
         return ficha
 
     def actionKeyboard(self, keys, time):
         if keys[self.keyMap["right"]]:
             self.move("right", time)
+            if self.current_frame == -1:
+                self.current_frame = 0
         if keys[self.keyMap["left"]]:
             self.move("left", time)
+            if self.current_frame == -1:
+                self.current_frame = 0
+    
 
+    def getFrame(self):
+        if self.current_frame == -1:
+            return self.sprites["front"]
+        self.current_frame += 1
+        if self.current_frame == FRAME_PER_SPRITE * 4:
+            self.current_frame = 0
+
+        if True:#self.orientation == -1:
+            #if self.cdHurt > 0:
+            #    self.cdHurt -= 1
+            #    return self.sprites["sufferBack"]
+            if self.current_frame < FRAME_PER_SPRITE:
+                return self.sprites["left"]
+            elif ((self.current_frame >= FRAME_PER_SPRITE and self.current_frame <= FRAME_PER_SPRITE * 2) 
+                or (self.current_frame >= FRAME_PER_SPRITE * 3 and self.current_frame < FRAME_PER_SPRITE * 4)):
+                return self.sprites["front"]
+            else:
+                return self.sprites["right"]
+
+
+        # if self.cdHurt > 0:
+        #     self.cdHurt -= 1
+        #     return self.sprites["sufferFront"]
+
+        # if self.cdShoot > 3:
+        #     if self.current_frame < 5:
+        #         sprite = self.sprites["frontAttack"][0]
+        #     if (self.current_frame >= 5 and self.current_frame <= 10) or (self.current_frame >= 15 and self.current_frame < 20):
+        #         sprite = self.sprites["frontAttack"][1]
+        #     if self.current_frame >= 10 and self.current_frame < 15:
+        #         sprite = self.sprites["frontAttack"][2]
+        # else:
+        #     if self.current_frame < 5:
+        #         sprite = self.sprites["front"][0]
+        #     if (self.current_frame >= 5 and self.current_frame < 10) or (self.current_frame >= 15 and self.current_frame < 20):
+        #         sprite = self.sprites["front"][1]
+        #     if self.current_frame >= 10 and self.current_frame < 15:
+        #         sprite = self.sprites["front"][2]
+        # return sprite
 # Actions
     def move(self, direction, time):
         speed = PLAYER_SPEED
@@ -90,6 +115,7 @@ class Player(sprite.Sprite):
                 self.x = RIGHT_LIMIT
 
     def update(self):
+        self.image = self.getFrame()
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 

@@ -48,16 +48,16 @@ class MainMenu(Scene):
         if (mouse_press and self.button_state == 1):
             self.button_state = 0
         if (not mouse_press and self.button_state == 0):
-			if self.play_button_rect.collidepoint(pygame.mouse.get_pos()):
-				self.next = "play_menu"
-			if self.how_play_button_rect.collidepoint(pygame.mouse.get_pos()):
-				self.next = "how_to_play"
-			if self.credits_button_rect.collidepoint(pygame.mouse.get_pos()):
-				self.next = "credits"
-			#if self.exit_button_rect.collidepoint(pygame.mouse.get_pos()):
-			#	self.next = ""
+            if self.play_button_rect.collidepoint(pygame.mouse.get_pos()):
+                self.next = "play_menu"
+            if self.how_play_button_rect.collidepoint(pygame.mouse.get_pos()):
+                self.next = "how_to_play"
+            if self.credits_button_rect.collidepoint(pygame.mouse.get_pos()):
+                self.next = "credits"
+            #if self.exit_button_rect.collidepoint(pygame.mouse.get_pos()):
+            #   self.next = ""
         else:
-        	self.button_state = 1
+            self.button_state = 1
 
 
     def on_update(self, time):
@@ -136,15 +136,15 @@ class PlayMenu(Scene):
         if (mouse_press and self.button_state == 1):
             self.button_state = 0
         if (not mouse_press and self.button_state == 0):
-			if self.story_button_rect.collidepoint(pygame.mouse.get_pos()):
-				self.next = "story_init"
-			if self.survival_button_rect.collidepoint(pygame.mouse.get_pos()):
-				pass
-				#self.next = "survival_init"
-			if self.back_button_rect.collidepoint(pygame.mouse.get_pos()):
-				self.next = "main_menu"
+            if self.story_button_rect.collidepoint(pygame.mouse.get_pos()):
+                self.next = "story_init"
+            if self.survival_button_rect.collidepoint(pygame.mouse.get_pos()):
+                pass
+                #self.next = "survival_init"
+            if self.back_button_rect.collidepoint(pygame.mouse.get_pos()):
+                self.next = "main_menu"
         else:
-        	self.button_state = 1
+            self.button_state = 1
 
 
     def on_update(self, time):
@@ -186,10 +186,10 @@ class Credits(Scene):
         if (mouse_press and self.button_state == 1):
             self.button_state = 0
         if (not mouse_press and self.button_state == 0):
-			if self.back_button_rect.collidepoint(pygame.mouse.get_pos()):
-				self.next = "main_menu"
+            if self.back_button_rect.collidepoint(pygame.mouse.get_pos()):
+                self.next = "main_menu"
         else:
-        	self.button_state = 1
+            self.button_state = 1
 
 
     def on_update(self, time):

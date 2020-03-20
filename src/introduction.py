@@ -12,8 +12,8 @@ class Introduction(Scene):
         self.next = None
         self.background = []
         self.current_text = -1
-        for i in range():
-        	self.background.append(load_image("assets/images/scenes/introduction_text_{}.png".format(i)))
+        for i in range(0):
+            self.background.append(load_image("assets/images/scenes/introduction_text_{}.png".format(i)))
 
         self.mouse_state = 1 # Up
 
@@ -27,11 +27,11 @@ class Introduction(Scene):
         if (mouse_press and self.button_state == 1):
             self.button_state = 0
         if (not mouse_press and self.button_state == 0):
-			self.current_text += 1
-			if (self.current_text == len(self.background)):
-				self.next = "level_1_0"
+            self.current_text += 1
+            if (self.current_text == len(self.background)):
+                self.next = "level_1_0"
         else:
-        	self.button_state = 1
+            self.button_state = 1
 
 
     def on_update(self, time):
@@ -44,7 +44,7 @@ class Introduction(Scene):
 
         # Scene
         if self.current_text >= 0:
-        	screen.blit(self.background[self.current_text], self.background[self.current_text].get_rect())
+            screen.blit(self.background[self.current_text], self.background[self.current_text].get_rect())
 
 
     def finish(self, data):

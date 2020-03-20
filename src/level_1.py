@@ -2,7 +2,7 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from .scene import Scene
 from .helpers import *
-from .things import Soap, Video
+from .things import Soap, Video, LowBattery
 from .player import Player
 from .parameters import *
 
@@ -12,7 +12,7 @@ class Level1Introduction(Scene):
         self.next = None
         self.background = []
         self.current_text = -1
-        for i in range():
+        for i in range(0):
             self.background.append(load_image("assets/images/scenes/level_1_text_{}.png".format(i)))
 
         self.mouse_state = 1 # Up
@@ -56,7 +56,7 @@ class Level1Play(Scene):
         self.background = load_image("assets/images/scenes/livingroom.png")
         self.object_1_icon = Soap(OBJECT_1_ICON_LOCATION)
         self.object_2_icon = Video(OBJECT_2_ICON_LOCATION)
-        self.bad_objects = [LowBatter] # Class pointers
+        self.bad_objects = [LowBattery] # Class pointers
 
         # Variables
         self.things = pygame.sprite.Group()
@@ -85,7 +85,7 @@ class Level1Play(Scene):
             self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
         elif lottery < RATIO_OBJECT_2_LV_1:
             self.things.add(Video(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        elif loterry < RATIO_BAD_OBJECT_LV_1:
+        elif lottery < RATIO_BAD_OBJECT_LV_1:
             self.things.add(random.choice(self.bad_objects)(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
 
         self.things.update(time, self.player)
