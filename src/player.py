@@ -78,14 +78,14 @@ class Player(sprite.Sprite):
             self.move("left", time)
 
 # Actions
-    def move(self, direction, time): # se sale por los lados
-        distance = 0.5
+    def move(self, direction, time):
+        speed = PLAYER_SPEED
         if direction == "left":
-            self.x -= time*distance
+            self.x -= time * speed
             if self.x <= LEFT_LIMIT:
                 self.x = LEFT_LIMIT
         if direction == "right":
-            self.x += time*distance
+            self.x += time * speed
             if self.x >= RIGHT_LIMIT:
                 self.x = RIGHT_LIMIT
 

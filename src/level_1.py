@@ -56,6 +56,7 @@ class Level1Play(Scene):
         self.background = load_image("assets/images/scenes/livingroom.png")
         self.object_1_icon = Soap(OBJECT_1_ICON_LOCATION)
         self.object_2_icon = Video(OBJECT_2_ICON_LOCATION)
+        self.bad_objects = [LowBatter] # Class pointers
 
         # Variables
         self.things = pygame.sprite.Group()
@@ -78,10 +79,16 @@ class Level1Play(Scene):
     def on_update(self, time):
         self.countdown -= time
 
-        # Things
-        if random.random() < 0.5:
+        # Things generation
+        lottery = random.random()
+        if lottery < RATIO_OBJECT_1_LV_1:
             self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        self.things.update(self.player)
+        elif lottery < RATIO_OBJECT_2_LV_1:
+            self.things.add(Video(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
+        elif loterry < RATIO_BAD_OBJECT_LV_1:
+            self.things.add(random.choice(self.bad_objects)(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
+
+        self.things.update(time, self.player)
 
         # Character
         self.player.update()
