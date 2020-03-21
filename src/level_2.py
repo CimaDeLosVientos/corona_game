@@ -2,7 +2,7 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from .scene import Scene
 from .helpers import *
-from .things import Soap, Video, LowBattery
+from .things import ToiletPaper, ChickenThigh, SpoiledSteak
 from .player import Player
 from .parameters import *
 
@@ -10,7 +10,7 @@ class Level2Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
-        self.background = load_image("assets/images/scenes/livingroom.png")
+        self.background = load_image("assets/images/scenes/supermarket.png")
         self.chat = []
         self.current_chat = -1
         for i in range(9):
@@ -64,10 +64,10 @@ class Level2Introduction(Scene):
 class Level2Play(Scene):
     def __init__(self):
         Scene.__init__(self)
-        self.background = load_image("assets/images/scenes/livingroom.png")
-        self.object_1_icon = Soap(OBJECT_1_ICON_LOCATION)
-        self.object_2_icon = Video(OBJECT_2_ICON_LOCATION)
-        self.bad_objects = [LowBattery] # Class pointers
+        self.background = load_image("assets/images/scenes/supermarket.png")
+        self.object_1_icon = ToiletPaper(OBJECT_1_ICON_LOCATION)
+        self.object_2_icon = ChickenThigh(OBJECT_2_ICON_LOCATION)
+        self.bad_objects = [SpoiledSteak] # Class pointers
 
         # Variables
         self.things = pygame.sprite.Group()
@@ -130,8 +130,8 @@ class Level2Play(Scene):
         elif self.player.healt <= 0:
             self.end_failed_healt = True
             return
-        elif (self.player.score["soap"] >= OBJECT_1_NEEDS_LEVEL_1
-            and self.player.score["video"] >= OBJECT_2_NEEDS_LEVEL_1):
+        elif (self.player.score["toilet_paper"] >= OBJECT_1_NEEDS_LEVEL_1
+            and self.player.score["chicken_thigh"] >= OBJECT_2_NEEDS_LEVEL_1):
             self.end_completed = True
             return
         self.countdown -= time
@@ -139,9 +139,9 @@ class Level2Play(Scene):
         # Things generation
         lottery = random.random()
         if lottery < RATIO_OBJECT_1_LEVEL_1:
-            self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
+            self.things.add(ToiletPaper(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
         elif lottery < RATIO_OBJECT_2_LEVEL_1:
-            self.things.add(Video(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
+            self.things.add(ChickenThigh(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
         elif lottery < RATIO_BAD_OBJECT_LEVEL_1:
             self.things.add(random.choice(self.bad_objects)(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
 
@@ -169,11 +169,11 @@ class Level2Play(Scene):
         
         # Scores
         screen.blit(self.object_1_icon.image, self.object_1_icon.rect)
-        object_1_score, object_1_score_rect = draw_text(str(self.player.score["soap"]), OBJECT_1_COUNTER_LOCATION[0], OBJECT_1_COUNTER_LOCATION[1])
+        object_1_score, object_1_score_rect = draw_text(str(self.player.score["toilet_paper"]), OBJECT_1_COUNTER_LOCATION[0], OBJECT_1_COUNTER_LOCATION[1])
         screen.blit(object_1_score, object_1_score_rect)
 
         screen.blit(self.object_2_icon.image, self.object_2_icon.rect)
-        object_2_score, object_2_score_rect = draw_text(str(self.player.score["video"]), OBJECT_2_COUNTER_LOCATION[0], OBJECT_2_COUNTER_LOCATION[1])
+        object_2_score, object_2_score_rect = draw_text(str(self.player.score["chicken_thigh"]), OBJECT_2_COUNTER_LOCATION[0], OBJECT_2_COUNTER_LOCATION[1])
         screen.blit(object_2_score, object_2_score_rect)
 
         countdown_timmer, countdown_timmer_rect = draw_text(str(int(self.countdown / 1000)), TIMER_LOCATION[0], TIMER_LOCATION[1])
