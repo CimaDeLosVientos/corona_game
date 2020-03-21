@@ -108,6 +108,11 @@ class Level4Play(Scene):
         self.exit_button_rect = self.exit_button.get_rect()
         self.exit_button_rect.center = EXIT_BUTTON
 
+        ## Exit button
+        self.exit_2_button = load_image("assets/images/buttons/exit_2_button.png")
+        self.exit_2_button_rect = self.exit_2_button.get_rect()
+        self.exit_2_button_rect.center = EXIT_BUTTON
+
 
     def load(self, data):
         self.__init__()
@@ -192,11 +197,11 @@ class Level4Play(Scene):
         
         # Scores
         screen.blit(self.object_1_icon.image, self.object_1_icon.rect)
-        object_1_score, object_1_score_rect = draw_text(str(self.player.score["salad"]), OBJECT_1_COUNTER_LOCATION[0], OBJECT_1_COUNTER_LOCATION[1])
+        object_1_score, object_1_score_rect = draw_text("{}/{}".format(self.player.score["salad"], OBJECT_1_NEEDS_LEVEL_4), OBJECT_1_COUNTER_LOCATION[0], OBJECT_1_COUNTER_LOCATION[1])
         screen.blit(object_1_score, object_1_score_rect)
 
         screen.blit(self.object_2_icon.image, self.object_2_icon.rect)
-        object_2_score, object_2_score_rect = draw_text(str(self.player.score["soap"]), OBJECT_2_COUNTER_LOCATION[0], OBJECT_2_COUNTER_LOCATION[1])
+        object_2_score, object_2_score_rect = draw_text("{}/{}".format(self.player.score["soap"], OBJECT_2_NEEDS_LEVEL_4), OBJECT_2_COUNTER_LOCATION[0], OBJECT_2_COUNTER_LOCATION[1])
         screen.blit(object_2_score, object_2_score_rect)
 
         countdown_timmer, countdown_timmer_rect = draw_text(str(int(self.countdown / 1000)), TIMER_LOCATION[0], TIMER_LOCATION[1])
@@ -216,7 +221,7 @@ class Level4Play(Scene):
         if self.end_failed_time:
             screen.blit(self.exit_button, self.exit_button_rect)
         elif self.end_failed_health:
-            screen.blit(self.exit_button, self.exit_button_rect)
+            screen.blit(self.exit_2_button, self.exit_2_button_rect)
         elif self.end_completed:
             screen.blit(self.next_level_button, self.next_level_button_rect)
 

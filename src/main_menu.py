@@ -151,7 +151,7 @@ class HowPlay(Scene):
         # Back button
         self.back_button =  load_image("assets/images/buttons/back_button.png")
         self.back_button_rect = self.back_button.get_rect()
-        self.back_button_rect.center = BACK_BUTTON
+        self.back_button_rect.center = BACK_BUTTON_HTP
 
         self.mouse_state = 1 # Up
 
