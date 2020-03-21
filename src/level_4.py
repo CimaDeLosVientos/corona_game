@@ -2,7 +2,7 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from .scene import Scene
 from .helpers import *
-from .things import Steak, Salad, HotDog
+from .things import Steak, Salad, SpoiledSteak
 from .player import Player
 from .parameters import *
 
@@ -67,7 +67,7 @@ class Level4Play(Scene):
         self.background = load_image("assets/images/scenes/kitchen.png")
         self.object_1_icon = Steak(OBJECT_1_ICON_LOCATION)
         self.object_2_icon = Salad(OBJECT_2_ICON_LOCATION)
-        self.bad_objects = [HotDog] # Class pointers
+        self.bad_objects = [SpoiledSteak] # Class pointers
 
         # Variables
         self.things = pygame.sprite.Group()

@@ -56,9 +56,12 @@ class Player(sprite.Sprite):
 
     def load_sprites(self):
         ficha = {
-            "left"  : transform.scale(load_image("assets/images/sprites/bobi_left.png"), PLAYER_SURFACE),
-            "front" : transform.scale(load_image("assets/images/sprites/bobi_front.png"), PLAYER_SURFACE),
-            "right" : transform.scale(load_image("assets/images/sprites/bobi_right.png"), PLAYER_SURFACE)
+            "left"  : load_image("assets/images/sprites/bobi_left.png"),
+            "front" : load_image("assets/images/sprites/bobi_front.png"),
+            "right" : load_image("assets/images/sprites/bobi_right.png")
+            #"left"  : transform.scale(load_image("assets/images/sprites/bobi_left.png"), PLAYER_SURFACE),
+            #"front" : transform.scale(load_image("assets/images/sprites/bobi_front.png"), PLAYER_SURFACE),
+            #"right" : transform.scale(load_image("assets/images/sprites/bobi_right.png"), PLAYER_SURFACE)
         }
         return ficha
 

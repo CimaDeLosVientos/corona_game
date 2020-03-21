@@ -39,7 +39,7 @@ class Director:
         pygame.key.set_repeat(10)
 
         self.scenes = scenes
-        self.current_scene = self.scenes["init"]
+        self.current_scene = self.scenes["level_4_1"]
         self.data = data
 
     def run(self):
