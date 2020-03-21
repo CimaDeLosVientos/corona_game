@@ -48,7 +48,7 @@ def load_sound(file_path):
         raise ImportError
     return sound_file
 
-def draw_text(text, pos_x, pos_y, size = 25, color = (255, 255, 255)):
+def draw_text(text, pos_x, pos_y, size = 25, color = (0, 0, 0)):
     """
     
     Formats a text for can show it in the game.
