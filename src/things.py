@@ -32,7 +32,7 @@ class BadThing(Thing):
 
 
     def be_caught(self, player):
-        player.healt -= 1
+        player.health -= 1
         self.kill()
 
 

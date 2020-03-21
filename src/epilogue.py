@@ -6,13 +6,13 @@ from .things import Soap, Video
 from .player import Player
 from .parameters import *
 
-class Introduction(Scene):
+class Epilogue(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
         self.background = load_image("assets/images/scenes/livingroom.png")
         self.chat = []
-        self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/0-0.png"), CHAT_SURFACE))
+        self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/6-0.png"), CHAT_SURFACE))
         self.current_chat = -1
         self.chat_rect = self.chat[0].get_rect()
         self.chat_rect.center = (int(WIDTH / 2) , int(HEIGHT / 2))
@@ -27,8 +27,9 @@ class Introduction(Scene):
 
     def load(self, data):
         self.__init__()
-        for i in range(1, 6):
-            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/0-{}.png".format(i)), CHAT_SURFACE))
+        for i in range(1, 12):
+            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/6-{}.png".format(i)), CHAT_SURFACE))
+
 
     def on_event(self, time, event):
         mouse_press = pygame.mouse.get_pressed()[0]
@@ -38,7 +39,7 @@ class Introduction(Scene):
             self.current_chat += 1
             self.mouse_state = 1
             if self.current_chat == len(self.chat):
-                self.next = "level_1_0"
+                self.next = "credits"
 
 
     def on_update(self, time):

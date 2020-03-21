@@ -11,6 +11,7 @@ from src.level_2 import *
 from src.level_3 import *
 from src.level_4 import *
 from src.level_5 import *
+from src.epilogue import *
 
 
 
@@ -39,7 +40,7 @@ class Director:
         pygame.key.set_repeat(10)
 
         self.scenes = scenes
-        self.current_scene = self.scenes["level_4_1"]
+        self.current_scene = self.scenes["init"]
         self.data = data
 
     def run(self):
@@ -83,7 +84,7 @@ class Director:
 if __name__ == '__main__':
     pygame.init()
     data = {
-        "healt_player" : INITIAL_HEALT
+        "health_player" : INITIAL_HEALTH
     }
     scenes = {
         "init" : MainMenu(),
@@ -101,7 +102,8 @@ if __name__ == '__main__':
         "level_4_0" : Level4Introduction(),
         "level_4_1" : Level4Play(),
         "level_5_0" : Level5Introduction(),
-        "level_5_1" : Level5Play()
+        "level_5_1" : Level5Play(),
+        "epilogue" : Epilogue(),
     }
     
     director = Director(scenes, data)

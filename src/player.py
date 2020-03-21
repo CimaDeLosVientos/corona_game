@@ -17,7 +17,7 @@ class Player(sprite.Sprite):
         self.current_frame = -1
         #self.state = "idle"
         self.score = {}
-        self.healt = INITIAL_HEALT
+        self.health = INITIAL_HEALTH
         self.setPlayer(device)
         self.restart(pos_x, pos_y)
 
@@ -43,6 +43,7 @@ class Player(sprite.Sprite):
 
 
     def setPlayer(self, device):
+        return
         if device == "keyboard":
             self.keyMap["left"] = K_a
             self.keyMap["right"] = K_d
@@ -66,11 +67,11 @@ class Player(sprite.Sprite):
         return ficha
 
     def actionKeyboard(self, keys, time):
-        if keys[self.keyMap["right"]]:
+        if keys[K_d] or keys[K_RIGHT]:
             self.move("right", time)
             if self.current_frame == -1:
                 self.current_frame = 0
-        if keys[self.keyMap["left"]]:
+        if keys[K_a] or keys[K_LEFT]:
             self.move("left", time)
             if self.current_frame == -1:
                 self.current_frame = 0
