@@ -1,4 +1,5 @@
 # Display
+MASTER_VOLUMEN = 0.1
 #WIDTH  = 1920
 #HEIGHT = 1080
 WIDTH  = 1280

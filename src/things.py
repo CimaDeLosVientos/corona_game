@@ -26,17 +26,20 @@ class Thing(sprite.Sprite):
     def be_caught(self, player):
         pass
 
+
+
+# Bad Things
 class BadThing(Thing):
     def __init__(self, position):
         super(BadThing, self).__init__(position)
-
+        self.sound = load_sound("assets/sounds/catch_bad_object.wav")
 
     def be_caught(self, player):
+        self.sound.play()
         player.health -= 1
         self.kill()
 
 
-# Bad Things
 class Beer(BadThing):
     def __init__(self, position):
         super(Beer, self).__init__(position)
@@ -102,7 +105,12 @@ class SpoiledSteak(BadThing):
 
 
 # Good Things
-class ChickenThigh(Thing):
+class GoodThing(Thing):
+    def __init__(self, position):
+        super(GoodThing, self).__init__(position)
+        self.sound = load_sound("assets/sounds/catch_good_object.wav")
+
+class ChickenThigh(GoodThing):
     def __init__(self, position):
         super(ChickenThigh, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/chicken_thigh.png"), OBJECT_SURFACE)
@@ -110,11 +118,12 @@ class ChickenThigh(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["chicken_thigh"] += 1
         self.kill()
 
 
-class Laptop(Thing):
+class Laptop(GoodThing):
     def __init__(self, position):
         super(Laptop, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/laptop.png"), OBJECT_SURFACE)
@@ -122,11 +131,12 @@ class Laptop(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["laptop"] += 1
         self.kill()
 
 
-class Mouse(Thing):
+class Mouse(GoodThing):
     def __init__(self, position):
         super(Mouse, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/mouse.png"), OBJECT_SURFACE)
@@ -134,11 +144,12 @@ class Mouse(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["mouse"] += 1
         self.kill()
 
 
-class Pizza(Thing):
+class Pizza(GoodThing):
     def __init__(self, position):
         super(Pizza, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/pizza.png"), OBJECT_SURFACE)
@@ -146,11 +157,12 @@ class Pizza(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["pizza"] += 1
         self.kill()
 
 
-class Salad(Thing):
+class Salad(GoodThing):
     def __init__(self, position):
         super(Salad, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/salad.png"), OBJECT_SURFACE)
@@ -158,11 +170,12 @@ class Salad(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["salad"] += 1
         self.kill()
 
 
-class Soap(Thing):
+class Soap(GoodThing):
     def __init__(self, position):
         super(Soap, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/soap.png"), OBJECT_SURFACE)
@@ -170,11 +183,12 @@ class Soap(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["soap"] += 1
         self.kill()
 
 
-class Steak(Thing):
+class Steak(GoodThing):
     def __init__(self, position):
         super(Steak, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/steak.png"), OBJECT_SURFACE)
@@ -182,10 +196,11 @@ class Steak(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["steak"] += 1
         self.kill()
 
-class ToiletPaper(Thing):
+class ToiletPaper(GoodThing):
     def __init__(self, position):
         super(ToiletPaper, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/toilet_paper.png"), OBJECT_SURFACE)
@@ -193,11 +208,12 @@ class ToiletPaper(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["toilet_paper"] += 1
         self.kill()
 
 
-class Video(Thing):
+class Video(GoodThing):
     def __init__(self, position):
         super(Video, self).__init__(position)
         self.image = transform.scale(load_image("assets/images/sprites/video.png"), OBJECT_SURFACE)
@@ -205,5 +221,6 @@ class Video(Thing):
         self.rect.center = (self.x, self.y)
 
     def be_caught(self, player):
+        self.sound.play()
         player.score["video"] += 1
         self.kill()

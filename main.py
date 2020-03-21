@@ -38,12 +38,14 @@ class Director:
 
         #Options
         pygame.key.set_repeat(10)
+        pygame.mixer.music.set_volume(MASTER_VOLUMEN)
 
         self.scenes = scenes
         self.current_scene = self.scenes["init"]
         self.data = data
 
     def run(self):
+        self.current_scene.load(self.data) # Se le manda el diccionario de datos para que se configure.
         while not self.quit_flag:
             time = self.clock.tick(60)
 
@@ -82,6 +84,8 @@ class Director:
 
 
 if __name__ == '__main__':
+    pygame.mixer.pre_init(44100, -16, 2, 2048)
+    pygame.mixer.init()
     pygame.init()
     data = {
         "health_player" : INITIAL_HEALTH

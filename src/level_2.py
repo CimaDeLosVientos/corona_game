@@ -10,6 +10,8 @@ class Level2Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
+        self.music = "assets/music/Phillip_Gross_-_03_-_Optimistic_Bits.mp3"
+        self.sound_notification = load_sound("assets/sounds/notification.wav")
         self.background = load_image("assets/images/scenes/supermarket.png")
         self.chat = []
         self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/2-0.png"), CHAT_SURFACE))
@@ -27,6 +29,8 @@ class Level2Introduction(Scene):
 
     def load(self, data):
         self.__init__()
+        load_music(self.music)
+        pygame.mixer.music.play(-1)
         for i in range(1, 9):
             self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/2-{}.png".format(i)), CHAT_SURFACE))
 
@@ -37,6 +41,7 @@ class Level2Introduction(Scene):
             self.mouse_state = 0
         if (not mouse_press and self.mouse_state == 0):
             self.current_chat += 1
+            self.sound_notification.play()
             self.mouse_state = 1
             if self.current_chat == len(self.chat):
                 self.next = "level_2_1"
@@ -65,6 +70,11 @@ class Level2Introduction(Scene):
 class Level2Play(Scene):
     def __init__(self):
         Scene.__init__(self)
+        self.music = "assets/music/Phillip_Gross_-_04_-_Silver_Danger.mp3"
+        self.sound_time_over = load_sound("assets/sounds/time_over.wav")
+        self.sound_game_over = load_sound("assets/sounds/game_over.wav")
+        self.sound_level_completed = load_sound("assets/sounds/level_completed.wav")
+
         self.background = load_image("assets/images/scenes/supermarket.png")
         self.object_1_icon = Steak(OBJECT_1_ICON_LOCATION)
         self.object_2_icon = ToiletPaper(OBJECT_2_ICON_LOCATION)
@@ -101,6 +111,8 @@ class Level2Play(Scene):
 
     def load(self, data):
         self.__init__()
+        load_music(self.music)
+        pygame.mixer.music.play(-1)
         self.player.health = data["health_player"]
 
     def on_event(self, time, event):
@@ -125,16 +137,23 @@ class Level2Play(Scene):
     def on_update(self, time):
         if not self.start:
             return
-        elif self.countdown <= 0:
-            self.end_failed_time = True
-            return
-        elif self.player.health <= 0:
-            self.end_failed_health = True
-            return
-        elif (self.player.score["steak"] >= OBJECT_1_NEEDS_LEVEL_2
-            and self.player.score["toilet_paper"] >= OBJECT_2_NEEDS_LEVEL_2):
-            self.end_completed = True
-            return
+        if pygame.mixer.music.get_busy():
+            if self.countdown <= 0:
+                self.end_failed_time = True
+                pygame.mixer.music.stop()
+                self.sound_time_over.play()
+                return
+            elif self.player.health <= 0:
+                self.end_failed_health = True
+                pygame.mixer.music.stop()
+                self.sound_game_over.play()
+                return
+            elif (self.player.score["steak"] >= OBJECT_1_NEEDS_LEVEL_2
+                and self.player.score["toilet_paper"] >= OBJECT_2_NEEDS_LEVEL_2):
+                self.end_completed = True
+                pygame.mixer.music.stop()
+                self.sound_level_completed.play()
+                return
         self.countdown -= time
 
         # Things generation

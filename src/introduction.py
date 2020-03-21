@@ -10,6 +10,8 @@ class Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
+        self.music = "assets/music/Phillip_Gross_-_03_-_Optimistic_Bits.mp3"
+        self.sound_notification = load_sound("assets/sounds/notification.wav")
         self.background = load_image("assets/images/scenes/livingroom.png")
         self.chat = []
         self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/0-0.png"), CHAT_SURFACE))
@@ -27,6 +29,8 @@ class Introduction(Scene):
 
     def load(self, data):
         self.__init__()
+        load_music(self.music)
+        pygame.mixer.music.play(-1)
         for i in range(1, 6):
             self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/0-{}.png".format(i)), CHAT_SURFACE))
 
@@ -36,6 +40,7 @@ class Introduction(Scene):
             self.mouse_state = 0
         if (not mouse_press and self.mouse_state == 0):
             self.current_chat += 1
+            self.sound_notification.play()
             self.mouse_state = 1
             if self.current_chat == len(self.chat):
                 self.next = "level_1_0"

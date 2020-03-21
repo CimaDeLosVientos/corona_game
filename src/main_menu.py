@@ -10,6 +10,7 @@ class MainMenu(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
+        self.music = "assets/music/Phillip_Gross_-_02_-_Neon_Twin.mp3"
         self.background = load_image("assets/images/scenes/main_menu.png")
 
         # Play button
@@ -32,6 +33,9 @@ class MainMenu(Scene):
 
     def load(self, data):
         self.__init__()
+        if not pygame.mixer.music.get_busy():
+            load_music(self.music)
+            pygame.mixer.music.play(-1)
 
 
     def on_event(self, time, event):
@@ -45,8 +49,7 @@ class MainMenu(Scene):
                 self.next = "how_to_play"
             if self.credits_button_rect.collidepoint(pygame.mouse.get_pos()):
                 self.next = "credits"
-            #if self.exit_button_rect.collidepoint(pygame.mouse.get_pos()):
-            #   self.next = ""
+            self.mouse_state = 1
 
 
     def on_update(self, time):
@@ -75,6 +78,7 @@ class PlayMenu(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
+        self.music = "assets/music/Phillip_Gross_-_02_-_Neon_Twin.mp3"
         self.background = load_image("assets/images/scenes/play_menu.png")
 
         # Story button
@@ -96,6 +100,9 @@ class PlayMenu(Scene):
 
     def load(self, data):
         self.__init__()
+        if not pygame.mixer.music.get_busy():
+            load_music(self.music)
+            pygame.mixer.music.play(-1)
 
 
     def on_event(self, time, event):
@@ -110,6 +117,7 @@ class PlayMenu(Scene):
                 #self.next = "survival_init"
             if self.back_button_rect.collidepoint(pygame.mouse.get_pos()):
                 self.next = "main_menu"
+            self.mouse_state = 1
 
 
     def on_update(self, time):
@@ -137,6 +145,7 @@ class HowPlay(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
+        self.music = "assets/music/Phillip_Gross_-_02_-_Neon_Twin.mp3"
         self.background = load_image("assets/images/scenes/how_to_play.png")
 
         # Back button
@@ -148,6 +157,9 @@ class HowPlay(Scene):
 
     def load(self, data):
         self.__init__()
+        if not pygame.mixer.music.get_busy():
+            load_music(self.music)
+            pygame.mixer.music.play(-1)
 
 
     def on_event(self, time, event):
@@ -157,6 +169,7 @@ class HowPlay(Scene):
         if (not mouse_press and self.mouse_state == 0):
             if self.back_button_rect.collidepoint(pygame.mouse.get_pos()):
                 self.next = "main_menu"
+            self.mouse_state = 1
 
 
     def on_update(self, time):
@@ -182,6 +195,7 @@ class Credits(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
+        self.music = "assets/music/Phillip_Gross_-_02_-_Neon_Twin.mp3"
         self.background = load_image("assets/images/scenes/credits.png")
 
         # Back button
@@ -193,6 +207,9 @@ class Credits(Scene):
 
     def load(self, data):
         self.__init__()
+        if not pygame.mixer.music.get_busy():
+            load_music(self.music)
+            pygame.mixer.music.play(-1)
 
 
     def on_event(self, time, event):
@@ -202,6 +219,7 @@ class Credits(Scene):
         if (not mouse_press and self.mouse_state == 0):
             if self.back_button_rect.collidepoint(pygame.mouse.get_pos()):
                 self.next = "main_menu"
+            self.mouse_state = 1
 
 
     def on_update(self, time):
