@@ -44,8 +44,8 @@ class Level2Introduction(Scene):
             self.sound_notification.play()
             self.mouse_state = 1
             if self.current_chat == len(self.chat):
-                self.next = "level_2_1"
-
+                #self.next = "level_2_1"
+                self.next = "level_3_0"
 
     def on_update(self, time):
         pass

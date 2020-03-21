@@ -162,7 +162,7 @@ class Level3Play(Scene):
         # Things generation
         lottery = random.random()
         if lottery < RATIO_OBJECT_1_LEVEL_3:
-            self.things.Video(soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
+            self.things.add(Video(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
         elif lottery < RATIO_OBJECT_2_LEVEL_3:
             self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
         elif lottery < RATIO_BAD_OBJECT_LEVEL_3:

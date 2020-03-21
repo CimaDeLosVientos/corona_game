@@ -44,7 +44,8 @@ class Level5Introduction(Scene):
             self.sound_notification.play()
             self.mouse_state = 1
             if self.current_chat == len(self.chat):
-                self.next = "level_1_1"
+                #self.next = "level_5_1"
+                self.next = "epilogue"
 
 
     def on_update(self, time):
@@ -124,7 +125,7 @@ class Level5Play(Scene):
             if not self.start:
                 self.start = True
             elif self.end_completed == True:
-                self.next = "level_2_0"
+                self.next = "epilogue"
             elif self.end_failed_time == True or self.end_failed_health == True:
                 self.next = "main_menu"
             self.mouse_state = 1

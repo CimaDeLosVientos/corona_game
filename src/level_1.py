@@ -45,7 +45,8 @@ class Level1Introduction(Scene):
             self.sound_notification.play()
             self.mouse_state = 1
             if self.current_chat == len(self.chat):
-                self.next = "level_1_1"
+                #self.next = "level_1_1"
+                self.next = "level_2_0"
 
 
     def on_update(self, time):
@@ -142,19 +143,19 @@ class Level1Play(Scene):
         if pygame.mixer.music.get_busy():
             if self.countdown <= 0:
                 self.end_failed_time = True
-                pygame.mixer.music.stop()
                 self.sound_time_over.play()
+                pygame.mixer.music.stop()
                 return
             elif self.player.health <= 0:
                 self.end_failed_health = True
-                pygame.mixer.music.stop()
                 self.sound_game_over.play()
+                pygame.mixer.music.stop()
                 return
             elif (self.player.score["pizza"] >= OBJECT_1_NEEDS_LEVEL_1
                 and self.player.score["soap"] >= OBJECT_2_NEEDS_LEVEL_1):
                 self.end_completed = True
-                pygame.mixer.music.stop()
                 self.sound_level_completed.play()
+                pygame.mixer.music.stop()
                 return
         else:
             return
