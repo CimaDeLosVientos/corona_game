@@ -6,7 +6,7 @@ from .things import Steak, Salad, HotDog
 from .player import Player
 from .parameters import *
 
-class Level1Introduction(Scene):
+class Level4Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
@@ -14,7 +14,7 @@ class Level1Introduction(Scene):
         self.chat = []
         self.current_chat = -1
         for i in range(6):
-            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/1-{}.png".format(i)), CHAT_SURFACE))
+            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/4-{}.png".format(i)), CHAT_SURFACE))
         self.chat_rect = self.chat[0].get_rect()
         self.chat_rect.center = (int(WIDTH / 2) , int(HEIGHT / 2))
 
@@ -61,7 +61,7 @@ class Level1Introduction(Scene):
 
 
 
-class Level1Play(Scene):
+class Level4Play(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.background = load_image("assets/images/scenes/kitchen.png")

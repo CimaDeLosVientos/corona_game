@@ -2,11 +2,11 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from .scene import Scene
 from .helpers import *
-from .things import Steak, Soap, HotDog
+from .things import Steak, Soap, Chips
 from .player import Player
 from .parameters import *
 
-class Level1Introduction(Scene):
+class Level5Introduction(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
@@ -14,7 +14,7 @@ class Level1Introduction(Scene):
         self.chat = []
         self.current_chat = -1
         for i in range(6):
-            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/1-{}.png".format(i)), CHAT_SURFACE))
+            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/5-{}.png".format(i)), CHAT_SURFACE))
         self.chat_rect = self.chat[0].get_rect()
         self.chat_rect.center = (int(WIDTH / 2) , int(HEIGHT / 2))
 
@@ -61,7 +61,7 @@ class Level1Introduction(Scene):
 
 
 
-class Level1Play(Scene):
+class Level5Play(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.background = load_image("assets/images/scenes/supermarket.png")
