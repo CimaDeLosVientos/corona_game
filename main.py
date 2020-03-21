@@ -29,9 +29,12 @@ class Director:
         self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
 
 
-        # screen name
+        # Screen name
         pygame.display.set_caption("corona_game")
 
+        # Icon
+        icon = load_image("assets/bobi_icon.png")
+        pygame.display.set_icon(icon)
         # Variables
         self.clock = pygame.time.Clock()
         self.quit_flag = False

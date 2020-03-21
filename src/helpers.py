@@ -80,7 +80,7 @@ def resource_path(relative):
     path into variable _MEIPASS'.
     """
     application_path = os.path.abspath(".")
-    if getattr(sys, 'frozen', False):
-        application_path = sys._MEIPASS
+    #if getattr(sys, 'frozen', False):
+    #    application_path = sys._MEIPASS
 
     return os.path.join(application_path, relative).replace("/", os.sep)
