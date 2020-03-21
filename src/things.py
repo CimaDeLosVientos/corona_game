@@ -1,4 +1,4 @@
-from pygame import sprite
+from pygame import sprite, transform
 from pygame.locals import *
 from .helpers import *
 from .parameters import *
@@ -40,63 +40,63 @@ class BadThing(Thing):
 class Beer(BadThing):
     def __init__(self, position):
         super(Beer, self).__init__(position)
-        self.image = load_image("assets/images/sprites/beer.png")
+        self.image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE)
         self.rect.center = (self.x, self.y)
         self.rect = self.image.get_rect()
 
 class BadNews(BadThing):
     def __init__(self, position):
         super(BadNews, self).__init__(position)
-        self.image = load_image("assets/images/sprites/bad_news.png")
+        self.image = transform.scale(load_image("assets/images/sprites/bad_news.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
 class Chips(BadThing):
     def __init__(self, position):
         super(Chips, self).__init__(position)
-        self.image = load_image("assets/images/sprites/chips.png")
+        self.image = transform.scale(load_image("assets/images/sprites/chips.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
 class FishScraps(BadThing):
     def __init__(self, position):
         super(FishScraps, self).__init__(position)
-        self.image = load_image("assets/images/sprites/fish_scraps.png")
+        self.image = transform.scale(load_image("assets/images/sprites/fish_scraps.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
 class HotDog(BadThing):
     def __init__(self, position):
         super(HotDog, self).__init__(position)
-        self.image = load_image("assets/images/sprites/hotdog.png")
+        self.image = transform.scale(load_image("assets/images/sprites/hotdog.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
 class LowBattery(BadThing):
     def __init__(self, position):
         super(LowBattery, self).__init__(position)
-        self.image = load_image("assets/images/sprites/low_battery.png")
+        self.image = transform.scale(load_image("assets/images/sprites/low_battery.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
 class Popcorn(BadThing):
     def __init__(self, position):
         super(Popcorn, self).__init__(position)
-        self.image = load_image("assets/images/sprites/popcorn.png")
+        self.image = transform.scale(load_image("assets/images/sprites/popcorn.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
 class RottenApple(BadThing):
     def __init__(self, position):
         super(RottenApple, self).__init__(position)
-        self.image = load_image("assets/images/sprites/rotten_apple.png")
+        self.image = transform.scale(load_image("assets/images/sprites/rotten_apple.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)       
 
 class SpoiledSteak(BadThing):
     def __init__(self, position):
         super(SpoiledSteak, self).__init__(position)
-        self.image = load_image("assets/images/sprites/spoiled_steak.png")
+        self.image = transform.scale(load_image("assets/images/sprites/spoiled_steak.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -105,7 +105,7 @@ class SpoiledSteak(BadThing):
 class ChickenThigh(Thing):
     def __init__(self, position):
         super(ChickenThigh, self).__init__(position)
-        self.image = load_image("assets/images/sprites/chicken_thigh.png")
+        self.image = transform.scale(load_image("assets/images/sprites/chicken_thigh.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -117,7 +117,7 @@ class ChickenThigh(Thing):
 class Laptop(Thing):
     def __init__(self, position):
         super(Laptop, self).__init__(position)
-        self.image = load_image("assets/images/sprites/laptop.png")
+        self.image = transform.scale(load_image("assets/images/sprites/laptop.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -129,7 +129,7 @@ class Laptop(Thing):
 class Mouse(Thing):
     def __init__(self, position):
         super(Mouse, self).__init__(position)
-        self.image = load_image("assets/images/sprites/mouse.png")
+        self.image = transform.scale(load_image("assets/images/sprites/mouse.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -141,7 +141,7 @@ class Mouse(Thing):
 class Pizza(Thing):
     def __init__(self, position):
         super(Pizza, self).__init__(position)
-        self.image = load_image("assets/images/sprites/pizza.png")
+        self.image = transform.scale(load_image("assets/images/sprites/pizza.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -153,7 +153,7 @@ class Pizza(Thing):
 class Salad(Thing):
     def __init__(self, position):
         super(Salad, self).__init__(position)
-        self.image = load_image("assets/images/sprites/salad.png")
+        self.image = transform.scale(load_image("assets/images/sprites/salad.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -165,7 +165,7 @@ class Salad(Thing):
 class Soap(Thing):
     def __init__(self, position):
         super(Soap, self).__init__(position)
-        self.image = load_image("assets/images/sprites/soap.png")
+        self.image = transform.scale(load_image("assets/images/sprites/soap.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -177,7 +177,7 @@ class Soap(Thing):
 class Steak(Thing):
     def __init__(self, position):
         super(Steak, self).__init__(position)
-        self.image = load_image("assets/images/sprites/steak.png")
+        self.image = transform.scale(load_image("assets/images/sprites/steak.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -188,7 +188,7 @@ class Steak(Thing):
 class ToiletPaper(Thing):
     def __init__(self, position):
         super(ToiletPaper, self).__init__(position)
-        self.image = load_image("assets/images/sprites/toilet_paper.png")
+        self.image = transform.scale(load_image("assets/images/sprites/toilet_paper.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -200,7 +200,7 @@ class ToiletPaper(Thing):
 class Video(Thing):
     def __init__(self, position):
         super(Video, self).__init__(position)
-        self.image = load_image("assets/images/sprites/video.png")
+        self.image = transform.scale(load_image("assets/images/sprites/video.png"), OBJECT_SURFACE)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 

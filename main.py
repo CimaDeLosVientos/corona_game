@@ -8,9 +8,9 @@ from src.main_menu import *
 from src.introduction import *
 from src.level_1 import *
 from src.level_2 import *
-#from src.level_3 import *
-#from src.level_4 import *
-#from src.level_5 import *
+from src.level_3 import *
+from src.level_4 import *
+from src.level_5 import *
 
 
 
@@ -39,7 +39,7 @@ class Director:
         pygame.key.set_repeat(10)
 
         self.scenes = scenes
-        self.current_scene = self.scenes["init"]
+        self.current_scene = self.scenes["level_4_0"]
         self.data = data
 
     def run(self):
@@ -96,12 +96,12 @@ if __name__ == '__main__':
         "level_1_1" : Level1Play(),
         "level_2_0" : Level2Introduction(),
         "level_2_1" : Level2Play(),
-        #"level_3_0" : Level3Introduction(),
-        #"level_3_1" : Level3Play(),
-        #"level_4_0" : Level4Introduction(),
-        #"level_4_1" : Level4Play(),
-        #"level_5_0" : Level5Introduction(),
-        #"level_5_1" : Level5Play()
+        "level_3_0" : Level3Introduction(),
+        "level_3_1" : Level3Play(),
+        "level_4_0" : Level4Introduction(),
+        "level_4_1" : Level4Play(),
+        "level_5_0" : Level5Introduction(),
+        "level_5_1" : Level5Play()
     }
     
     director = Director(scenes, data)

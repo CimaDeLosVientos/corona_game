@@ -24,7 +24,17 @@ class Player(sprite.Sprite):
     def restart(self, pos_x, pos_y):
         #Reiniciar atributos del personaje
         self.state = "idle"
-        self.score = {"soap": 0, "video": 0}
+        self.score = {
+            "chicken_thigh" : 0,
+            "laptop" : 0,
+            "mouse" : 0,
+            "pizza" : 0,
+            "salad" : 0,
+            "soap" : 0,
+            "steak" : 0,
+            "toilet_paper" : 0,
+            "video" : 0
+        }
         self.x = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
         self.image = self.sprites["front"]
