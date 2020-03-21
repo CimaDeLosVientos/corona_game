@@ -155,6 +155,8 @@ class Level3Play(Scene):
                 pygame.mixer.music.stop()
                 self.sound_level_completed.play()
                 return
+        else:
+            return
         self.countdown -= time
 
         # Things generation
