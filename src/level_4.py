@@ -132,19 +132,19 @@ class Level4Play(Scene):
         elif self.player.health <= 0:
             self.end_failed_health = True
             return
-        elif (self.player.score["salad"] >= OBJECT_1_NEEDS_LEVEL_1
-            and self.player.score["soap"] >= OBJECT_2_NEEDS_LEVEL_1):
+        elif (self.player.score["salad"] >= OBJECT_1_NEEDS_LEVEL_4
+            and self.player.score["soap"] >= OBJECT_2_NEEDS_LEVEL_4):
             self.end_completed = True
             return
         self.countdown -= time
 
         # Things generation
         lottery = random.random()
-        if lottery < RATIO_OBJECT_1_LEVEL_1:
+        if lottery < RATIO_OBJECT_1_LEVEL_4:
             self.things.add(Salad(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        elif lottery < RATIO_OBJECT_2_LEVEL_1:
+        elif lottery < RATIO_OBJECT_2_LEVEL_4:
             self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        elif lottery < RATIO_BAD_OBJECT_LEVEL_1:
+        elif lottery < RATIO_BAD_OBJECT_LEVEL_4:
             self.things.add(random.choice(self.bad_objects)(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
 
         self.things.update(time, self.player)

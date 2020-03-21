@@ -8,14 +8,14 @@ class Player(sprite.Sprite):
         sprite.Sprite.__init__(self)
         self.device = device
         self.sprites = self.load_sprites()
-        self.image = self.sprites["front"]
+        self.image = self.sprites["normal"]
         self.x = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
         self.keyMap = {}
         self.current_frame = -1
-        #self.state = "idle"
+        self.state = "idle"
         self.score = {}
         self.health = INITIAL_HEALTH
         self.setPlayer(device)
@@ -37,7 +37,7 @@ class Player(sprite.Sprite):
         }
         self.x = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
-        self.image = self.sprites["front"]
+        self.image = self.sprites["normal"]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
@@ -57,6 +57,7 @@ class Player(sprite.Sprite):
 
     def load_sprites(self):
         ficha = {
+            "normal": load_image("assets/images/sprites/bobi_normal.png"),
             "left"  : load_image("assets/images/sprites/bobi_left.png"),
             "front" : load_image("assets/images/sprites/bobi_front.png"),
             "right" : load_image("assets/images/sprites/bobi_right.png")
@@ -67,34 +68,38 @@ class Player(sprite.Sprite):
         return ficha
 
     def actionKeyboard(self, keys, time):
-        if keys[K_d] or keys[K_RIGHT]:
-            self.move("right", time)
-            if self.current_frame == -1:
-                self.current_frame = 0
         if keys[K_a] or keys[K_LEFT]:
             self.move("left", time)
-            if self.current_frame == -1:
+            if self.state != "left":
                 self.current_frame = 0
-    
+                self.state = "left"
+        elif keys[K_d] or keys[K_RIGHT]:
+            self.move("right", time)
+            if self.state != "right":
+                self.current_frame = FRAME_PER_SPRITE
+                self.state = "right"
+        else:
+            self.state = "idle"
+
 
     def getFrame(self):
         if self.current_frame == -1:
+            return self.sprites["normal"]
+        if self.state == "idle":
             return self.sprites["front"]
-        self.current_frame += 1
-        if self.current_frame == FRAME_PER_SPRITE * 4:
-            self.current_frame = 0
 
+        self.current_frame += 1
+        if self.current_frame == FRAME_PER_SPRITE * 2 + 1:
+            self.current_frame = 0
         if True:#self.orientation == -1:
             #if self.cdHurt > 0:
             #    self.cdHurt -= 1
             #    return self.sprites["sufferBack"]
-            if self.current_frame < FRAME_PER_SPRITE:
+            if self.current_frame <= FRAME_PER_SPRITE:
                 return self.sprites["left"]
-            elif ((self.current_frame >= FRAME_PER_SPRITE and self.current_frame <= FRAME_PER_SPRITE * 2) 
-                or (self.current_frame >= FRAME_PER_SPRITE * 3 and self.current_frame < FRAME_PER_SPRITE * 4)):
-                return self.sprites["front"]
             else:
                 return self.sprites["right"]
+
 
 
         # if self.cdHurt > 0:
