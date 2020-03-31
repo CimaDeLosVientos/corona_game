@@ -1,7 +1,7 @@
 import pygame, os, random, time as tim
 from pygame.locals import *
 from src.helpers import *
-from src.things import Soap, Video
+from src.things import Soap, Video, LowBattery
 from src.player import Player
 from src.parameters import *
 from src.main_menu import *
@@ -12,6 +12,7 @@ from src.level_3 import *
 from src.level_4 import *
 from src.level_5 import *
 from src.epilogue import *
+from src.scene import *
 
 
 
@@ -49,9 +50,8 @@ class Director:
 
     def run(self):
         self.current_scene.load(self.data) # Se le manda el diccionario de datos para que se configure.
+        time = self.clock.tick(60)
         while not self.quit_flag:
-            time = self.clock.tick(60)
-
             # Eventos de Salida
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -91,7 +91,13 @@ if __name__ == '__main__':
     pygame.mixer.init()
     pygame.init()
     data = {
-        "health_player" : INITIAL_HEALTH
+        "health_player" : INITIAL_HEALTH,
+        "music" : "Phillip_Gross_-_03_-_Optimistic_Bits.mp3",
+        "background" : "livingroom.png",
+        "good_objets" : [(Video, 0.2, 10), (Soap, 0.2, 10)],
+        "bad_objets" : [LowBattery],
+        "new_object_probability" : 0.1,
+        "level_time" : 100
     }
     scenes = {
         "init" : MainMenu(),
@@ -100,17 +106,17 @@ if __name__ == '__main__':
         "how_to_play" : HowPlay(),
         "credits" : Credits(),
         "story_init" : Introduction(),
-        "level_1_0" : Level1Introduction(),
-        "level_1_1" : Level1Play(),
-        "level_2_0" : Level2Introduction(),
-        "level_2_1" : Level2Play(),
-        "level_3_0" : Level3Introduction(),
-        "level_3_1" : Level3Play(),
-        "level_4_0" : Level4Introduction(),
-        "level_4_1" : Level4Play(),
-        "level_5_0" : Level5Introduction(),
-        "level_5_1" : Level5Play(),
-        "epilogue" : Epilogue(),
+        "level_1_0" : ChatScene(3),
+        "level_3_1" : PlayScene(data, 3),
+        #"level_2_0" : Level2Introduction(),
+        #"level_2_1" : Level2Play(),
+        #"level_3_0" : Level3Introduction(),
+        #"level_3_1" : Level3Play(),
+        #"level_4_0" : Level4Introduction(),
+        #"level_4_1" : Level4Play(),
+        #"level_5_0" : Level5Introduction(),
+        #"level_5_1" : Level5Play(),
+        #"epilogue" : Epilogue(),
     }
     
     director = Director(scenes, data)
