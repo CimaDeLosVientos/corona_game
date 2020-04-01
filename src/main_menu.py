@@ -2,8 +2,6 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from .scene import Scene
 from .helpers import *
-from .things import Soap, Video
-from .player import Player
 from .parameters import *
 
 class MainMenu(Scene):

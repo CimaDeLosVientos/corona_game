@@ -9,7 +9,7 @@ class Player(sprite.Sprite):
         self.device = device
         self.sprites = self.load_sprites()
         self.image = self.sprites["normal"]
-        self.x = pos_x         #X inicial
+        self.x = self.x_initial = pos_x         #X inicial
         self.y = pos_y         #Y inicial   
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
@@ -19,9 +19,9 @@ class Player(sprite.Sprite):
         self.score = {}
         self.health = INITIAL_HEALTH
         self.setPlayer(device)
-        self.restart(pos_x, pos_y)
+        self.restart()
 
-    def restart(self, pos_x, pos_y):
+    def restart(self):
         #Reiniciar atributos del personaje
         self.state = "idle"
         self.score = {
@@ -35,8 +35,7 @@ class Player(sprite.Sprite):
             "toilet_paper" : 0,
             "video" : 0
         }
-        self.x = pos_x         #X inicial
-        self.y = pos_y         #Y inicial   
+        self.x = self.x_initial
         self.image = self.sprites["normal"]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
