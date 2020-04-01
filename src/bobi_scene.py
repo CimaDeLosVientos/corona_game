@@ -1,20 +1,21 @@
+from src.scene import Scene
 import pygame, os, random, time as tim
 from pygame.locals import *
-from .scene import Scene
-from .helpers import *
-from .things import Pizza, Soap, HotDog
-from .player import Player
-from .parameters import *
+from src.helpers import *
+from src.player import Player
+from src.parameters import *
 
-class Level1Introduction(Scene):
-    def __init__(self):
+class ChatScene(Scene):
+    def __init__(self, level):
         Scene.__init__(self)
+        self.level = level
         self.next = None
         self.music = "assets/music/Phillip_Gross_-_03_-_Optimistic_Bits.mp3"
         self.sound_notification = load_sound("assets/sounds/notification.wav")
-        self.background = load_image("assets/images/scenes/pizzeria.png")
+        self.background = load_image("assets/images/scenes/background_chat.png")
         self.chat = []
-        self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/1-0.png"), CHAT_SURFACE))
+        for i in range(6):
+            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/{}-{}.png".format(level, i)), CHAT_SURFACE))
         self.current_chat = -1
         self.chat_rect = self.chat[0].get_rect()
         self.chat_rect.center = (int(WIDTH / 2) , int(HEIGHT / 2))
@@ -28,12 +29,11 @@ class Level1Introduction(Scene):
 
 
     def load(self, data):
-        self.__init__()
         if not pygame.mixer.music.get_busy():
             load_music(self.music)
-            pygame.mixer.music.play(-1)
-        for i in range(1, 6):
-            self.chat.append(pygame.transform.scale(load_image("assets/images/scenes/1-{}.png".format(i)), CHAT_SURFACE))
+            pygame.mixer.music.play(-1)        
+        self.next = None
+        self.current_chat = -1
 
 
     def on_event(self, time, event):
@@ -45,8 +45,7 @@ class Level1Introduction(Scene):
             self.sound_notification.play()
             self.mouse_state = 1
             if self.current_chat == len(self.chat):
-                #self.next = "level_1_1"
-                self.next = "level_2_0"
+                self.next = "level_{}_1".format(self.level)
 
 
     def on_update(self, time):
@@ -66,25 +65,33 @@ class Level1Introduction(Scene):
 
     def finish(self, data):
         pass
+        
 
 
-
-class Level1Play(Scene):
-    def __init__(self):
+class PlayScene(Scene):
+    def __init__(self, data, level):
         Scene.__init__(self)
-        self.music = "assets/music/Phillip_Gross_-_03_-_Die_Stadtmusikanten.mp3"
+        self.level = level
+        self.music = "assets/music/{}".format(data["music"])
         self.sound_time_over = load_sound("assets/sounds/time_over.wav")
         self.sound_game_over = load_sound("assets/sounds/game_over.wav")
         self.sound_level_completed = load_sound("assets/sounds/level_completed.wav")
+        self.background = load_image("assets/images/scenes/{}".format(data["background"]))
 
-        self.background = load_image("assets/images/scenes/pizzeria.png")
-        self.object_1_icon = Pizza(OBJECT_1_ICON_LOCATION)
-        self.object_2_icon = Soap(OBJECT_2_ICON_LOCATION)
-        self.bad_objects = [HotDog] # Class pointers
+        # Things
+        self.good_objets_data = data["good_objets"] # List of tuples (object, probability 0-1, needs)
+        self.good_objets = []
+        for ii in range(len(self.good_objets_data)):
+            self.good_objets.append(self.good_objets_data[ii][0](ICON_LOCATIONS[ii]))
+        self.bad_objects = data["bad_objets"]
+        self.new_object_probability = data["new_object_probability"]
+        self.probabilities = [self.good_objets_data[0][1] * self.new_object_probability]
+        for ii in range(1, len(self.good_objets_data)):
+            self.probabilities.append(self.probabilities[ii-1] + (self.good_objets_data[ii][1] * self.new_object_probability))
 
         # Variables
         self.things = pygame.sprite.Group()
-        self.countdown = LEVEL_TIME * 1000
+        self.level_time = self.countdown = data["level_time"] * 1000
         self.start = False
         self.end_completed = False
         self.end_failed_time = False
@@ -98,24 +105,52 @@ class Level1Play(Scene):
         ## Start level button
         self.start_level_button = load_image("assets/images/buttons/start_level_button.png")
         self.start_level_button_rect = self.start_level_button.get_rect()
-        self.start_level_button_rect.center = START_LEVEL_BUTTON
+        self.start_level_button_rect.center = START_FINISH_BUTTON
 
         ## Next level button
         self.next_level_button = load_image("assets/images/buttons/next_level_button.png")
         self.next_level_button_rect = self.next_level_button.get_rect()
-        self.next_level_button_rect.center = NEXT_LEVEL_BUTTON
+        self.next_level_button_rect.center = START_FINISH_BUTTON
 
-        ## Exit button
-        self.exit_button = load_image("assets/images/buttons/exit_button.png")
-        self.exit_button_rect = self.exit_button.get_rect()
-        self.exit_button_rect.center = EXIT_BUTTON
+        ## Time over button
+        self.time_over_button = load_image("assets/images/buttons/time_over_button.png")
+        self.time_over_button_rect = self.time_over_button.get_rect()
+        self.time_over_button_rect.center = START_FINISH_BUTTON
+
+        ## Dead button
+        self.dead_button = load_image("assets/images/buttons/dead_button.png")
+        self.dead_button_rect = self.dead_button.get_rect()
+        self.dead_button_rect.center = START_FINISH_BUTTON
 
 
     def load(self, data):
-        self.__init__()
+        self.next = None
         load_music(self.music)
         pygame.mixer.music.play(-1)
-        self.player.health = INITIAL_HEALTH
+        self.player.health = data["health_player"]
+        self.player.restart()
+        self.countdown = self.level_time
+        self.start = False
+        self.end_completed = False
+        self.end_failed_time = False
+        self.end_failed_health = False
+        self.mouse_state = 1 # Up
+
+
+    def is_completed(self):
+        for ii in range(len(self.good_objets)):
+            if self.player.score[self.good_objets[ii].name] < self.good_objets_data[ii][2]:
+                return False
+        return True
+
+    
+    def generates_thing(self):
+        lottery = random.random()
+        for ii in range(len(self.good_objets_data)):
+            if lottery < self.probabilities[ii]:
+                self.things.add(self.good_objets_data[ii][0]((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), - 50)))
+        if lottery < self.probabilities[-1]:
+            self.things.add(random.choice(self.bad_objects)((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), - 50)))
 
 
     def on_event(self, time, event):
@@ -126,7 +161,7 @@ class Level1Play(Scene):
             if not self.start:
                 self.start = True
             elif self.end_completed == True:
-                self.next = "level_2_0"
+                self.next = "level_{}_0".format(self.level + 1)
             elif self.end_failed_time == True or self.end_failed_health == True:
                 self.next = "main_menu"
             self.mouse_state = 1
@@ -151,8 +186,7 @@ class Level1Play(Scene):
                 self.sound_game_over.play()
                 pygame.mixer.music.stop()
                 return
-            elif (self.player.score["pizza"] >= OBJECT_1_NEEDS_LEVEL_1
-                and self.player.score["soap"] >= OBJECT_2_NEEDS_LEVEL_1):
+            elif self.is_completed():
                 self.end_completed = True
                 self.sound_level_completed.play()
                 pygame.mixer.music.stop()
@@ -161,15 +195,7 @@ class Level1Play(Scene):
             return
         self.countdown -= time
 
-        # Things generation
-        lottery = random.random()
-        if lottery < RATIO_OBJECT_1_LEVEL_1:
-            self.things.add(Pizza(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        elif lottery < RATIO_OBJECT_2_LEVEL_1:
-            self.things.add(Soap(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-        elif lottery < RATIO_BAD_OBJECT_LEVEL_1:
-            self.things.add(random.choice(self.bad_objects)(((random.randrange(LEFT_LIMIT, RIGHT_LIMIT), -50))))
-
+        self.generates_thing()
         self.things.update(time, self.player)
 
         # Character
@@ -193,17 +219,18 @@ class Level1Play(Scene):
         screen.blit(self.player.image, self.player.rect) 
         
         # Scores
-        screen.blit(self.object_1_icon.image, self.object_1_icon.rect)
-        object_1_score, object_1_score_rect = draw_text(str(self.player.score["pizza"]), OBJECT_1_COUNTER_LOCATION[0], OBJECT_1_COUNTER_LOCATION[1])
-        screen.blit(object_1_score, object_1_score_rect)
+        for ii in range(len(self.good_objets)):
+            screen.blit(self.good_objets[ii].image, self.good_objets[ii].rect)
+            score, score_rect = draw_text("{}/{}".format(
+                str(self.player.score[self.good_objets[ii].name]), str(self.good_objets_data[ii][2])
+                ), COUNTER_LOCATIONS[ii][0], COUNTER_LOCATIONS[ii][1])
+            screen.blit(score, score_rect)
 
-        screen.blit(self.object_2_icon.image, self.object_2_icon.rect)
-        object_2_score, object_2_score_rect = draw_text(str(self.player.score["soap"]), OBJECT_2_COUNTER_LOCATION[0], OBJECT_2_COUNTER_LOCATION[1])
-        screen.blit(object_2_score, object_2_score_rect)
-
+        # Timer
         countdown_timmer, countdown_timmer_rect = draw_text(str(int(self.countdown / 1000)), TIMER_LOCATION[0], TIMER_LOCATION[1])
         screen.blit(countdown_timmer, countdown_timmer_rect)
 
+        # Health bar
         width_health_bar = INITIAL_HEALTH * HEALTH_BAR_PORTION_SIZE[0]
         health_bar = pygame.Surface((width_health_bar, HEALTH_BAR_PORTION_SIZE[1]))
         health_bar.fill((255,200,200))
@@ -216,12 +243,48 @@ class Level1Play(Scene):
 
         # Finished
         if self.end_failed_time:
-            screen.blit(self.exit_button, self.exit_button_rect)
+            screen.blit(self.time_over_button, self.time_over_button_rect)
         elif self.end_failed_health:
-            screen.blit(self.exit_button, self.exit_button_rect)
+            screen.blit(self.dead_button, self.dead_button_rect)
         elif self.end_completed:
             screen.blit(self.next_level_button, self.next_level_button_rect)
 
 
     def finish(self, data):
         data["health_player"] = self.player.health
+        self.things.empty()
+
+
+
+
+# Especial chats
+class IntroductionScene(ChatScene):
+    def __init__(self, level):
+        ChatScene.__init__(self, level)
+
+    def on_event(self, time, event):
+        mouse_press = pygame.mouse.get_pressed()[0]
+        if (mouse_press and self.mouse_state == 1):
+            self.mouse_state = 0
+        if (not mouse_press and self.mouse_state == 0):
+            self.current_chat += 1
+            self.sound_notification.play()
+            self.mouse_state = 1
+            if self.current_chat == len(self.chat):
+                self.next = "level_1_0" # Only change regarding ChatScene
+
+
+class EpilogueScene(ChatScene):
+    def __init__(self, level):
+        ChatScene.__init__(self, level)
+
+    def on_event(self, time, event):
+        mouse_press = pygame.mouse.get_pressed()[0]
+        if (mouse_press and self.mouse_state == 1):
+            self.mouse_state = 0
+        if (not mouse_press and self.mouse_state == 0):
+            self.current_chat += 1
+            self.sound_notification.play()
+            self.mouse_state = 1
+            if self.current_chat == len(self.chat):
+                self.next = "credits" # Only change regarding ChatScene
